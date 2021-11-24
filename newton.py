@@ -22,8 +22,7 @@ def NewtonMethod(start_point,
         G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
-        import pdb
-        pdb.set_trace()
+        
         if np.linalg.det(G_k) > 0:
             d_k = -np.dot(np.linalg.inv(G_k), g_k)
         elif np.linalg.det(G_k) < 0:
@@ -47,8 +46,7 @@ def NewtonMethod(start_point,
         elif "hybrid" in method:  # 混合 Newton 方法
             g_k_l2norm = np.linalg.norm(g_k, ord=2)
             d_k_l2norm = np.linalg.norm(d_k, ord=2)
-            import pdb
-            pdb.set_trace()
+            
             if np.dot(g_k.T, d_k) > (epsilon * g_k_l2norm * d_k_l2norm):
                 d_k = -d_k  # d_k 不是下降方向，则取反方向
             elif np.abs(np.dot(g_k.T,

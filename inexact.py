@@ -7,6 +7,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     # TODO: 初始化说明
     beta = 0.5  # armijo 变体方法，步长的初始值
     rho = 1e-3  # refer to book P21
+    eps = 1e-8
     sigma = rho  # 越小越接近精确线搜索
     alpha = np.array([0.1], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
@@ -21,8 +22,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
                           grad=grad,
                           m=_,
                           method=method)
-        if alpha[0] < 0:
-            alpha[0] = 0
+        
 
         f_k_1 = func(x_k + alpha[0] * d_k)
         f_k = func(x_k)
@@ -32,6 +32,10 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
         gk1_dk = np.dot(grad(x_k + alpha[0] * d_k).T, d_k)
 
         satisfy = False
+        g_k_l2norm = np.linalg.norm(g_k, ord=2)
+        if g_k_l2norm < eps:
+            satisfy = True
+
         if "armijo" in method:
             if f_k_1 <= (f_k + rho * gk_dk_alpha):
                 satisfy = True
