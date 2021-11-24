@@ -22,8 +22,10 @@ def NewtonMethod(start_point,
         G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
-        if np.linalg.det(G_k) != 0:
+        if np.linalg.det(G_k) > 0:
             d_k = -np.dot(np.linalg.inv(G_k), g_k)
+        elif np.linalg.det(G_k) < 0:
+            d_k = np.dot(np.linalg.inv(G_k), g_k)
         else:
             d_k = -g_k
             logger.warning("Hessian 矩阵奇异, 不可用普通 Newton 方法求 d_k, 令 d_k = -g_k")
