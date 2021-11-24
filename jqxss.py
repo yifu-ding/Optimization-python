@@ -1,5 +1,5 @@
 # coding=UTF-8
-# 精确线性搜索
+# 精确线性搜索 exact line search
 import numpy as np
 
 
