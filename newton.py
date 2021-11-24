@@ -22,6 +22,8 @@ def NewtonMethod(start_point,
         G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
+        import pdb
+        pdb.set_trace()
         if np.linalg.det(G_k) > 0:
             d_k = -np.dot(np.linalg.inv(G_k), g_k)
         elif np.linalg.det(G_k) < 0:
@@ -42,16 +44,18 @@ def NewtonMethod(start_point,
                                      grad,
                                      m_max=20,
                                      logger=logger)
-        elif " hybrid" in method:  # 混合 Newton 方法
+        elif "hybrid" in method:  # 混合 Newton 方法
             g_k_l2norm = np.linalg.norm(g_k, ord=2)
             d_k_l2norm = np.linalg.norm(d_k, ord=2)
+            import pdb
+            pdb.set_trace()
             if np.dot(g_k.T, d_k) > (epsilon * g_k_l2norm * d_k_l2norm):
                 d_k = -d_k  # d_k 不是下降方向，则取反方向
             elif np.abs(np.dot(g_k.T,
                                d_k)) <= (epsilon * g_k_l2norm * d_k_l2norm):
                 d_k = -g_k  # 接近正交，改成最速下降
-            else:
-                raise NotImplementedError("应该不会走到这")
+            # else:
+            # raise NotImplementedError("应该不会走到这")
             alpha, x_k_1 = criterion(method,
                                      x_k,
                                      d_k,
@@ -72,11 +76,11 @@ def NewtonMethod(start_point,
         logger.info("loss_k=" + str(loss_k))
 
         # stopping criterion 终止判断
-        # diff = np.fabs(func(x_k_1) - func(x_k))
-        # logger.info("func(x_k_1)=" + str(func(x_k_1)))
-        # logger.info("func(x_k)=" + str(func(x_k)))
-        # logger.info("diff=" + str(diff))
-        # logger.info("")
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        logger.info("func(x_k_1)=" + str(func(x_k_1)))
+        logger.info("func(x_k)=" + str(func(x_k)))
+        logger.info("diff=" + str(diff))
+        logger.info("")
 
         if diff < epsilon:
             logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
