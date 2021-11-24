@@ -2,14 +2,15 @@ import numpy as np
 
 
 class ExtendedPowellSingular:
-    def __init__(self):
+    def __init__(self, m=None):
         pass
 
     def func(self, x):
-        N = x.shape[0]
-        assert N % 4 == 0
+        n = x.shape[0]
+        assert n % 4 == 0
+        m = n
         f = 0
-        for i in range(N // 4):
+        for i in range(m // 4):
             f_1 = x[4 * i] + 10 * x[4 * i + 1]
             f_2 = np.power(5, 0.5) * (x[4 * i + 2] - x[4 * i + 3])
             f_3 = np.power(x[4 * i + 1] - 2 * x[4 * i + 2], 2)
@@ -18,10 +19,11 @@ class ExtendedPowellSingular:
         return f
 
     def grad(self, x):
-        N = x.shape[0]
-        assert N % 4 == 0
-        g = np.zeros((N, ), dtype=np.float64)
-        for i in range(N // 4):
+        n = x.shape[0]
+        assert n % 4 == 0
+        m = n
+        g = np.zeros((n, ), dtype=np.float64)
+        for i in range(m // 4):
             f_1 = x[4 * i] + 10 * x[4 * i + 1]
             f_2 = np.power(5, 0.5) * (x[4 * i + 2] - x[4 * i + 3])
             f_3 = np.power(x[4 * i + 1] - 2 * x[4 * i + 2], 2)
