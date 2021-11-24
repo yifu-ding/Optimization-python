@@ -10,21 +10,22 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     sigma = rho  # 越小越接近精确线搜索
     alpha = 0  # init
     if "interpolate33" in method:
-        alpha = np.array([0, 0], dtype="float32").reshape(-1, 1)
+        alpha = np.array([0.1, 0.5], dtype="float32").reshape(-1, 1)
 
     for _ in range(int(m_max)):
-        alpha = get_alpha(method=method,
-                          x_k=x_k,
+        alpha = get_alpha(x_k=x_k,
                           d_k=d_k,
                           alpha=alpha,
                           beta=beta,
                           func=func,
                           grad=grad,
-                          m=_)
+                          m=_,
+                          method=method)
         f_k_1 = func(x_k + alpha * d_k)
         f_k = func(x_k)
-        gk_dk_alpha = np.dot(grad(x_k), d_k) * alpha
-        gk1_dk = np.dot(grad(x_k + alpha * d_k), d_k)
+        g_k = grad(x_k)
+        gk_dk_alpha = np.dot(grad(x_k).T, d_k) * alpha
+        gk1_dk = np.dot(grad(x_k + alpha * d_k).T, d_k)
 
         satisfy = False
         if "armijo" in method and f_k_1 <= (f_k + rho * gk_dk_alpha):
@@ -36,11 +37,11 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
             satisfy = True
         elif "wolfe" in method and f_k_1 <= (
                 f_k + rho * gk_dk_alpha) and gk1_dk >= (sigma *
-                                                        np.dot(g_k, d_k)):
+                                                        np.dot(g_k.T, d_k)):
             satisfy = True
         elif "strong_wolfe" in method and f_k_1 <= (
                 f_k + rho *
-                gk_dk_alpha) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k, d_k)):
+                gk_dk_alpha) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k.T, d_k)):
             satisfy = True
         else:
             raise NotImplementedError("method " + str(method) +

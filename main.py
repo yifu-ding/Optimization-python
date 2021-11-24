@@ -3,6 +3,7 @@ import numpy as np
 import logging
 import sys
 from jqxss import GD_algorithm  # exact line search
+from inexact import InExactLineSearch
 
 log_format = '%(asctime)s %(message)s'
 logging.basicConfig(stream=sys.stdout,
@@ -39,7 +40,7 @@ x_star = -np.dot(np.linalg.inv(G), b)
 #                                      epsilon=1e-8,
 #                                      logger=logger)
 
-InExactLineSearch(method="armijo",
+total_iter, x_k, loss = InExactLineSearch(method="interpolate22 armijo",
                   start_point=x_0,
                   func=func,
                   grad=grad,
