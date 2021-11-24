@@ -6,10 +6,11 @@ def QuasiNewton(start_point,
                 func,
                 grad,
                 x_star,
+                logger,
                 epsilon=1e-8,
                 max_iters=1e3,
-                method="sr1 wolfe interpolate22",
-                logger=logger):
+                method="sr1 wolfe interpolate22"
+                ):
     # 初始化
     x_k, loss, H = start_point, [], np.eye(len(start_point))
 

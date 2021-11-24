@@ -47,7 +47,7 @@ class ExtendedPowellSingular:
 
 
 if __name__ == '__main__':
-    eps = EPS()
+    eps = ExtendedPowellSingular()
     X = np.array([1, 2, 3, 4])
     print(eps.func(X))
     print(eps.grad(X))
