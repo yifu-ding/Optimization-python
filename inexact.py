@@ -10,7 +10,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     sigma = rho  # 越小越接近精确线搜索
     alpha = np.array([0.1], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
-        alpha = np.array([0.05, 0.1], dtype="float32").reshape(-1, 1)
+        alpha = np.array([0.1, 0.5], dtype="float32").reshape(-1, 1)
 
     for _ in range(int(m_max)):
         alpha = get_alpha(x_k=x_k,
@@ -21,10 +21,13 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
                           grad=grad,
                           m=_,
                           method=method)
+        if alpha[0] < 0:
+            alpha[0] = 0
 
         f_k_1 = func(x_k + alpha[0] * d_k)
         f_k = func(x_k)
         g_k = grad(x_k)
+
         gk_dk_alpha = np.dot(grad(x_k).T, d_k) * alpha[0]
         gk1_dk = np.dot(grad(x_k + alpha[0] * d_k).T, d_k)
 
