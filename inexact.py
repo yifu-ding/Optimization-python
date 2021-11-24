@@ -26,27 +26,27 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
         gk_dk_alpha = np.dot(grad(x_k), d_k) * alpha
         gk1_dk = np.dot(grad(x_k + alpha * d_k), d_k)
 
-        # armijo 的变体
+        satisfy = False
         if "armijo" in method and f_k_1 <= (f_k + rho * gk_dk_alpha):
-            break
+            satisfy = True
         elif "goldstein" in method and f_k_1 <= (
                 f_k +
                 rho * gk_dk_alpha) and f_k_1 >= (f_k +
                                                  (1 - rho) * gk_dk_alpha):
-            break
+            satisfy = True
         elif "wolfe" in method and f_k_1 <= (
                 f_k + rho * gk_dk_alpha) and gk1_dk >= (sigma *
                                                         np.dot(g_k, d_k)):
-            break
+            satisfy = True
         elif "strong_wolfe" in method and f_k_1 <= (
                 f_k + rho *
                 gk_dk_alpha) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k, d_k)):
-            break
+            satisfy = True
         else:
             raise NotImplementedError("method " + str(method) +
                                       " not implemented")
-        # m += 1
-        logger.info("     criterion iter " + str(_) + ", m=" + str(m))
+        if satisfy:
+            break
 
     x_k_1 = x_k + alpha * d_k
     return alpha, x_k_1
