@@ -1,23 +1,25 @@
 import numpy as np
+from inexact import criterion
 
 
 # Newton 算法函数说明
-def NewtonMethod(method="damped wolfe interpolate22",
-                 start_point,
+def NewtonMethod(start_point,
                  func,
                  grad,
                  hessian,
                  x_star,
                  epsilon=1e-8,
                  max_iters=1e3,
-                 logger=logger):
+                 method="damped wolfe interpolate22",
+                 logger=None):
     # 参数说明
     x_k, loss = start_point, []
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
         g_k = grad(x_k).reshape(-1, 1)
-        G_k = hessian(x_k)
+        # G_k = hessian(x_k)
+        G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
         if np.linalg.det(G_k) != 0:
@@ -66,12 +68,19 @@ def NewtonMethod(method="damped wolfe interpolate22",
         logger.info("iter " + str(cnt_iter))
         logger.info("x_k=" + str(x_k.reshape(1, -1)))
         logger.info("loss_k=" + str(loss_k))
-        logger.info("")
 
         # stopping criterion 终止判断
-        if np.fabs(func(x_k_1) - func(x_k)) < epsilon:
+        # diff = np.fabs(func(x_k_1) - func(x_k))
+        # logger.info("func(x_k_1)=" + str(func(x_k_1)))
+        # logger.info("func(x_k)=" + str(func(x_k)))
+        # logger.info("diff=" + str(diff))
+        # logger.info("")
+
+        if diff < epsilon:
             logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
                         str(np.fabs(func(x_k_1) - func(x_k))))
             break
+
+        x_k = x_k_1
 
     return cnt_iter, x_k_1, loss
