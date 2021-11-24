@@ -6,6 +6,7 @@ from jqxss import GD_algorithm  # exact line search
 from get_hessian import get_hessian
 from newton import NewtonMethod
 from inexact import InExactLineSearch
+from quasi_newton import QuasiNewton
 
 log_format = '%(asctime)s %(message)s'
 logging.basicConfig(stream=sys.stdout,
@@ -51,16 +52,16 @@ x_star = -np.dot(np.linalg.inv(G), b)
 #                   epsilon=1e-8,
 #                   logger=logger)
 
-func_name = "example"
-total_iter, x_k, _ = NewtonMethod(start_point=x_0,
-                                  func=func,
-                                  grad=grad,
-                                  hessian=get_hessian(func_name),
-                                  x_star=x_star,
-                                  epsilon=1e-8,
-                                  max_iters=1e3,
-                                  method="hybrid wolfe interpolate22",
-                                  logger=logger)
+# func_name = "example"
+# total_iter, x_k, _ = NewtonMethod(start_point=x_0,
+#                                   func=func,
+#                                   grad=grad,
+#                                   hessian=get_hessian(func_name),
+#                                   x_star=x_star,
+#                                   epsilon=1e-8,
+#                                   max_iters=1e3,
+#                                   method="hybrid wolfe interpolate22",
+#                                   logger=logger)
 # total_iter, x_k, loss = InExactLineSearch(method="interpolate33 armijo",
 #                                           start_point=x_0,
 #                                           func=func,
@@ -69,6 +70,15 @@ total_iter, x_k, _ = NewtonMethod(start_point=x_0,
 #                                           x_star=x_star,
 #                                           epsilon=1e-8,
 #                                           logger=logger)
+
+total_iter, x_k, loss = QuasiNewton(start_point=x_0,
+                                    func=func,
+                                    grad=grad,
+                                    x_star=x_star,
+                                    epsilon=1e-8,
+                                    max_iters=1e3,
+                                    method="sr1 wolfe interpolate22",
+                                    logger=logger)
 
 logger.info("***** Final Results *****")
 logger.info("   迭代次数: " + str(total_iter))

@@ -3,3 +3,4 @@ zsxj.py
 .DS_Store
 res.log
 .git
+__pycache__/
