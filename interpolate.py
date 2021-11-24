@@ -35,13 +35,21 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1=None):
     assert a_b.shape == (2, 1)
     # 由 p'(x) = 3ax^2 + 2bx + c = 0, 解 x
     coeff = np.append(a_b * np.array([3, 2]), gk_dk)
+    
     r = np.roots(coeff)
-    if np.isreal(r):
-        alpha_2 = np.max(r)
+    
+    m_r = None
+    for _ in range(r.shape[0]):
+        if np.isreal(r[_]):
+            if m_r is None or r[_] > m_r:
+                m_r = r[_]
+    if m_r is not None:
+        alpha_2 = np.max(m_r)
     else:
-        logger.info("方程的解不是实数，改用两点两次插值")
-        alpha_2 = interpolate22(g_k, d_k, alpha_1)
-    return np.array([alpha_1, alpha_2], dtype="float32").reshape(-1, 1)
+        # logger.info("方程的解不是实数，改用两点两次插值")
+        print("方程的解不是实数，改用两点两次插值")
+        alpha_2 = interpolate22(func, x_k, g_k, d_k, alpha_1)
+    return np.array([alpha_2, alpha_0], dtype="float32").reshape(-1, 1)
 
 
 # TODO: 函数功能逻辑

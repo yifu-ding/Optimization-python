@@ -40,7 +40,7 @@ x_star = -np.dot(np.linalg.inv(G), b)
 #                                      epsilon=1e-8,
 #                                      logger=logger)
 
-total_iter, x_k, loss = InExactLineSearch(method="interpolate22 armijo",
+total_iter, x_k, loss = InExactLineSearch(method="interpolate33 armijo",
                   start_point=x_0,
                   func=func,
                   grad=grad,
