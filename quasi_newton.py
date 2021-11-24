@@ -19,7 +19,7 @@ def QuasiNewton(start_point,
         # 终止条件检测
         if np.linalg.norm(g_k, ord=2) < epsilon:
             break
-        d_k = -H * g_k
+        d_k = -np.dot(H, g_k)
         alpha, x_k_1 = criterion(method,
                                  x_k,
                                  d_k,
