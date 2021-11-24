@@ -29,6 +29,13 @@
 
 1) (16) Brown and Dennis function, m=4, 10, 20, 30, 40, 50. 
 
+``` python
+t = lambda l: l / 5.
+func = lambda t_l, x: (x[0] + t_l * x[1] - np.exp(t_l))**2 + (x[2] + x[
+    3] * np.sin(t_l) - np.cos(t_l))**2
+grad = lambda t_l, x: 0  # TODO
+```
+
 2) (22) Extended Powell singular function, m=20,40,60,80,100. 
 
 3) (27) Brown almost linear function, n=20, 40, 60, 80, 100.
