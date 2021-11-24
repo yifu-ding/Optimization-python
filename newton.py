@@ -22,6 +22,7 @@ def NewtonMethod(start_point,
         G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
+
         if np.linalg.det(G_k) > 0:
             d_k = -np.dot(np.linalg.inv(G_k), g_k)
         elif np.linalg.det(G_k) < 0:
