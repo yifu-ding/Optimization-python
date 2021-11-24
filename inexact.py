@@ -13,14 +13,14 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
         alpha = np.array([0, 0], dtype="float32").reshape(-1, 1)
 
     for _ in range(int(m_max)):
-        alpha = get_alpha(method=method,
-                          x_k=x_k,
+        alpha = get_alpha(x_k=x_k,
                           d_k=d_k,
                           alpha=alpha,
                           beta=beta,
                           func=func,
                           grad=grad,
-                          m=_)
+                          m=_,
+                          method=method)
         f_k_1 = func(x_k + alpha * d_k)
         f_k = func(x_k)
         gk_dk_alpha = np.dot(grad(x_k), d_k) * alpha
