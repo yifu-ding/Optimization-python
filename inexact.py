@@ -8,9 +8,9 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     beta = 0.5  # armijo 变体方法，步长的初始值
     rho = 1e-3  # refer to book P21
     sigma = rho  # 越小越接近精确线搜索
-    alpha = 0  # init
+    alpha = np.array([0.1], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
-        alpha = np.array([0, 0], dtype="float32").reshape(-1, 1)
+        alpha = np.array([0.05, 0.1], dtype="float32").reshape(-1, 1)
 
     for _ in range(int(m_max)):
         alpha = get_alpha(x_k=x_k,
@@ -21,27 +21,37 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
                           grad=grad,
                           m=_,
                           method=method)
-        f_k_1 = func(x_k + alpha * d_k)
+
+        f_k_1 = func(x_k + alpha[0] * d_k)
         f_k = func(x_k)
-        gk_dk_alpha = np.dot(grad(x_k), d_k) * alpha
-        gk1_dk = np.dot(grad(x_k + alpha * d_k), d_k)
+        g_k = grad(x_k)
+        gk_dk_alpha = np.dot(grad(x_k).T, d_k) * alpha[0]
+        gk1_dk = np.dot(grad(x_k + alpha[0] * d_k).T, d_k)
 
         satisfy = False
-        if "armijo" in method and f_k_1 <= (f_k + rho * gk_dk_alpha):
-            satisfy = True
-        elif "goldstein" in method and f_k_1 <= (
-                f_k +
-                rho * gk_dk_alpha) and f_k_1 >= (f_k +
-                                                 (1 - rho) * gk_dk_alpha):
-            satisfy = True
-        elif "wolfe" in method and f_k_1 <= (
-                f_k + rho * gk_dk_alpha) and gk1_dk >= (sigma *
-                                                        np.dot(g_k, d_k)):
-            satisfy = True
-        elif "strong_wolfe" in method and f_k_1 <= (
-                f_k + rho *
-                gk_dk_alpha) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k, d_k)):
-            satisfy = True
+        if "armijo" in method:
+            if f_k_1 <= (f_k + rho * gk_dk_alpha):
+                satisfy = True
+            else:
+                satisfy = False
+        elif "goldstein" in method:
+            if f_k_1 <= (f_k + rho * gk_dk_alpha) and f_k_1 >= (
+                    f_k + (1 - rho) * gk_dk_alpha):
+                satisfy = True
+            else:
+                satisfy = False
+        elif "wolfe" in method:
+            if f_k_1 <= (f_k + rho * gk_dk_alpha) and gk1_dk >= (
+                    sigma * np.dot(g_k.T, d_k)):
+                satisfy = True
+            else:
+                satisfy = False
+        elif "strong_wolfe" in method:
+            if f_k_1 <= (f_k + rho * gk_dk_alpha
+                         ) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k.T, d_k)):
+                satisfy = True
+            else:
+                satisfy = True
         else:
             raise NotImplementedError("method " + str(method) +
                                       " not implemented")
