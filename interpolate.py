@@ -4,8 +4,6 @@ import numpy as np
 
 # 两点两次插值 2-Point Quadric Intropolation
 def interpolate22(func, x_k, g_k, d_k, alpha):
-    # import pdb
-    # pdb.set_trace()
     f_k = func(x_k)  # phi(0)
     f_k_1 = func(x_k + alpha * d_k)  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)

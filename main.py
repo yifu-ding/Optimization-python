@@ -10,6 +10,7 @@ from quasi_newton import QuasiNewton
 from brown_and_dennis import BrownAndDennis
 from extended_powell_singular import ExtendedPowellSingular
 from example import Example
+from brown_almost_linear import BrownAlmostLinear
 
 log_format = '%(asctime)s %(message)s'
 logging.basicConfig(stream=sys.stdout,
@@ -36,10 +37,11 @@ logger = logging.getLogger()
 #                                   max_iters=1e3,
 #                                   method="hybrid wolfe interpolate22",
 #                                   logger=logger)
-# question = ExtendedPowellSingular(m=4)
-question = BrownAndDennis(m=20)
+question = ExtendedPowellSingular(m=4)
+# question = BrownAndDennis(m=20)
+# question = BrownAlmostLinear(n=20)
 # question = Example()
-total_iter, x_k, loss = InExactLineSearch(method="interpolate22 wolfe",
+total_iter, x_k, loss = InExactLineSearch(method="simple wolfe",
                                           start_point=question.x_0,
                                           func=question.func,
                                           grad=question.grad,
