@@ -56,13 +56,43 @@ class BrownAlmostLinear:
 
     def hessian(self, x):
         n = x.shape[0]
-        h = np.zeros((n, n), dtype="float32")
+        J = np.zeros((n, n))
+        sum = np.sum(x)
+        for l in range(n - 1):
+            J[l, :] = 1
+            J[l, l] = 2
+        
+        def mul_not_k(x, k1, k2):
+            tmp = 1.
+            for kk in range(n):
+                if kk != k1 and kk != k2:
+                    tmp = tmp * x[kk]
+            return tmp
+        for j in range(n):
+            J[n-1, j] = mul_not_k(x, j, j)
+        # print(J)
+
+        G = np.dot(J.T, J)
+
+        F__ = np.zeros_like(G)
+        for i in range(n):
+            for j in range(n):
+                F__[i, j] = mul_not_k(x, i, j)
+            F__[i, i] = 0
+        f_n = mul_not_k(x, -1, -1) - 1
+        G = G + F__ * f_n
+
+        G = G * 2
+        return G
+    
+        
 
 
 if __name__ == '__main__':
-    bal = BrownAlmostLinear(20)
+    bal = BrownAlmostLinear(5)
     # x = bal.x_minimun_0
-    print(bal.func(bal.x_minimun_0))
-    print(bal.func(bal.x_minimun_1))
+    print(bal.hessian(bal.x_minimun_0))
+    print(bal.hessian(bal.x_minimun))
+    # print(bal.func(bal.x_minimun_1))
     # print(bal.func(bal.x_0))
     # print(bal.grad(bal.x_0))
