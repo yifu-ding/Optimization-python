@@ -78,6 +78,6 @@ logger.info("***** Final Results *****")
 logger.info("   迭代次数: " + str(total_iter))
 logger.info("   函数调用次数: " + str(call_f))
 logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)) + ", 函数值:" +
-            str(func(x_k)))
+            str(bad.func(x_k)))
 logger.info("   最优点的 x 值: " + str(x_star.reshape(1, -1)) + ", 最优函数值:" +
-            str(func(x_star)))
+            str(bad.f_minimun))

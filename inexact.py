@@ -37,8 +37,6 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
             satisfy = True
 
         if "armijo" in method:
-            import pdb
-            pdb.set_trace()
             if f_k_1 <= (f_k + rho * gk_dk_alpha):
                 satisfy = True
             else:
@@ -67,7 +65,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
         if satisfy:
             break
 
-    x_k_1 = x_k + alpha * d_k
+    x_k_1 = x_k + np.squeeze(alpha * d_k, axis=-1)
     return alpha, x_k_1
 
 
