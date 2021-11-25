@@ -6,7 +6,7 @@ import numpy as np
 def GD_algorithm(start_point,
                  func,
                  grad,
-                 G,
+                 hessian,
                  x_star,
                  epsilon=1e-8,
                  max_iters=1e3,

@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 import numpy as np
 from inexact import criterion
 
@@ -52,8 +54,7 @@ def NewtonMethod(start_point,
             elif np.abs(np.dot(g_k.T,
                                d_k)) <= (epsilon * g_k_l2norm * d_k_l2norm):
                 d_k = -g_k  # 接近正交，改成最速下降
-            # else:
-            # raise NotImplementedError("应该不会走到这")
+
             alpha, x_k_1 = criterion(method,
                                      x_k,
                                      d_k,
