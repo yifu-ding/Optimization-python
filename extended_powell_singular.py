@@ -7,6 +7,7 @@ class ExtendedPowellSingular:
         self.x_0 = np.array([3, -1, 0, 1], dtype="float32").reshape(-1, 1)
         self.f_minimun = None
         self.call_f = 0
+        self.x_star = None
         pass
 
     def func(self, x):

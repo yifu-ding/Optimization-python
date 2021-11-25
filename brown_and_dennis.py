@@ -10,6 +10,7 @@ class BrownAndDennis:
         self.x_0 = np.array([25, 5, -5, -1], dtype="float32").reshape(-1, 1)
         self.f_minimun = 85822.2
         self.call_f = 0
+        self.x_star = None
 
     def func(self, x):
         self.call_f += 1

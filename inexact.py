@@ -10,7 +10,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     rho = 1e-4  # refer to book P21
     eps = 1e-8
     sigma = 0.9  # 越小越接近精确线搜索
-    alpha = np.array([1.], dtype="float32").reshape(-1, 1)  # init
+    alpha = np.array([10.], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
         alpha = np.array([10., 5.], dtype="float32").reshape(-1, 1)
 
@@ -38,6 +38,8 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
 
         f_k_1 = func(x_k + alpha[0] * d_k)
         # f_k_1 = func(x_k + np.squeeze(alpha[0] * d_k, axis=-1))
+        import pdb
+        pdb.set_trace()
         gk_dk_alpha = np.squeeze(np.dot(grad(x_k).T, d_k) * alpha[0], axis=-1)
 
         satisfy = False
@@ -72,6 +74,9 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
         if satisfy:
             logger.info("在第" + str(_) + "次迭代，满足准则")
             break
+    if _ == m_max - 1:
+        logger.info("步长 alpha=" + str(alpha))
+        raise RuntimeError("未满足任何准则，但达到迭代次数")
 
     x_k_1 = x_k + alpha[0] * d_k
     return alpha, x_k_1

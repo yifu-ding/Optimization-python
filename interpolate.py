@@ -4,8 +4,9 @@ import numpy as np
 
 # 两点两次插值 2-Point Quadric Intropolation
 def interpolate22(func, x_k, g_k, d_k, alpha):
+
     f_k = func(x_k)  # phi(0)
-    f_k_1 = func(x_k + np.squeeze(alpha * d_k, axis=-1))  # phi(alpha_0)
+    f_k_1 = func(x_k + alpha * d_k)  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
     alpha = -(gk_dk * alpha**2) / (2 * (f_k_1 - f_k - gk_dk * alpha))
     return alpha
@@ -14,8 +15,10 @@ def interpolate22(func, x_k, g_k, d_k, alpha):
 # 三点三次插值 3-Point Cubic Intropolation
 def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
     f_k = func(x_k)  # phi(0)
-    f_k_0 = func(x_k + np.squeeze(alpha_0 * d_k, axis=-1))  # phi(alpha_0)
-    f_k_1 = func(x_k + np.squeeze(alpha_1 * d_k, axis=-1))  # phi(alpha_1)
+    # f_k_0 = func(x_k + np.squeeze(alpha_0 * d_k, axis=-1))  # phi(alpha_0)
+    # f_k_1 = func(x_k + np.squeeze(alpha_1 * d_k, axis=-1))  # phi(alpha_1)
+    f_k_0 = func(x_k + alpha_0 * d_k)  # phi(alpha_0)
+    f_k_1 = func(x_k + alpha_1 * d_k)  # phi(alpha_1)
 
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
     # 三次插值函数 p(x) = ax^3 + bx^2 + cx + d
