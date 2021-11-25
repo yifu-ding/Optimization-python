@@ -38,8 +38,19 @@ class BrownAlmostLinear:
             f = x[l] + sum
             g = g + 2 * f
             g[l] = g[l] + 2 * f
-            g[l] = g[l] + 2 * f_n * (tmp / x[l])
-        g[n - 1] = g[n - 1] + 2 * f_n * (tmp / x[n - 1])
+            tmp = 1.
+            for k in range(n):
+                if k == l:
+                    continue
+                tmp = tmp * x[k]
+            g[l] = g[l] + 2 * f_n * tmp
+
+        tmp = 1.
+        for k in range(n):
+            if k == n - 1:
+                continue
+            tmp = tmp * x[k]
+        g[n - 1] = g[n - 1] + 2 * f_n * tmp
         return g
 
     def hessian(self, x):
