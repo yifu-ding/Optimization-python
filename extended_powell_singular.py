@@ -55,9 +55,39 @@ class ExtendedPowellSingular:
 
         return g
 
+    def hessian(self, x):
+        n = x.shape[0]
+        m = n
+        J = np.zeros((m, m))
+        for i in range(m // 4):
+            f_1 = x[4 * i] + 10 * x[4 * i + 1]
+            f_2 = np.power(5, 0.5) * (x[4 * i + 2] - x[4 * i + 3])
+            f_3 = np.power(x[4 * i + 1] - 2 * x[4 * i + 2], 2)
+            f_4 = np.power(10, 0.5) * np.power(x[4 * i] - x[4 * i + 3], 2)
+            J[4*i:4*i+4, 4*i:4*i+4] = [
+                [1, 10, 0, 0],
+                [0, 0, 5 ** 0.5, -5 ** 0.5],
+                [0, 2 * x[4*i+1]-4*x[4*i+2], 8*x[4*i+2] - 4*x[4*i+1], 0],
+                [2* 10 ** 0.5 *(x[4*i] - x[4*i+3]), 0, 0, 2* 10**0.5 * (x[4*i+3] - x[4*i])]
+            ]
+        G = np.dot(J.T, J)
+
+        for i in range(m // 4):
+            f_1 = x[4 * i] + 10 * x[4 * i + 1]
+            f_2 = np.power(5, 0.5) * (x[4 * i + 2] - x[4 * i + 3])
+            f_3 = np.power(x[4 * i + 1] - 2 * x[4 * i + 2], 2)
+            f_4 = np.power(10, 0.5) * np.power(x[4 * i] - x[4 * i + 3], 2)
+            G[4*i+1:4*i+3, 4*i+1:4*i+3] = G[4*i+1:4*i+3, 4*i+1:4*i+3] + np.array([[2, -4], [-4, 8]]) * f_3
+            G[4*i:4*i+4:3, 4*i:4*i+4:3] = G[4*i:4*i+4:3, 4*i:4*i+4:3] + np.array([[1, -1], [-1, 1]]) * 2 * 10 ** 0.5 * f_4
+
+        G = G * 2
+
+        return G
+
 
 if __name__ == '__main__':
     eps = ExtendedPowellSingular()
-    X = np.array([0, 0, 0, 0])
+    X = np.array([1, 2, 3, 4])
     print(eps.func(X))
     print(eps.grad(X))
+    print(eps.hessian(X))
