@@ -20,3 +20,6 @@ class Example:
         # import pdb
         # pdb.set_trace()
         return np.dot(self.G, x) + self.b
+
+    def hessian(self, x):
+        return self.G + self.G.T

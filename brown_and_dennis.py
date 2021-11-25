@@ -41,6 +41,20 @@ class BrownAndDennis:
             t = (l + 1) / 5.
             f_l = (x[0] + t * x[1] - np.exp(t))**2 + (x[2] + x[3] * np.sin(t) -
                                                       np.cos(t))**2
+            g_0 = 2 * f_l * 2 * (x[0] + t * x[1] - np.exp(t))
+            h[0][0] += 2 * f_l * 2
+            h[0][1] += 2 * f_l * 2 * t
+            g_1 = 2 * f_l * 2 * (x[0] + t * x[1] - np.exp(t)) * t
+            h[1][0] += 2 * f_l * 2 * t
+            h[1][1] += 2 * f_l * 2 * t * t
+            g_2 = 2 * f_l * 2 * (x[2] + x[3] * np.sin(t) - np.cos(t))
+            h[2][2] += 2 * f_l * 2
+            h[2][3] += 2 * f_l * 2 * np.sin(t)
+            g_3 = 2 * f_l * 2 * (x[2] + x[3] * np.sin(t) -
+                                 np.cos(t)) * np.sin(t)
+            h[3][2] += 2 * f_l * 2 * np.sin(t)
+            h[3][3] += 2 * f_l * 2 * np.sin(t) * np.sin(t)
+        return h
 
 
 if __name__ == '__main__':

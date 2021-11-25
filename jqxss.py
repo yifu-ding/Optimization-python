@@ -8,6 +8,7 @@ def GD_algorithm(start_point,
                  grad,
                  hessian,
                  x_star,
+                 f_minimun,
                  epsilon=1e-8,
                  max_iters=1e3,
                  logger=None):
@@ -21,23 +22,36 @@ def GD_algorithm(start_point,
     #            最大迭代次数 max_iters,
     #            函数收敛情况 loss
     x_k, loss = start_point, []
+    if x_star is not None:
+        f_minimun = func(x_star)
 
     for cnt_iter in range(int(max_iters)):
+        logger.info("iter " + str(cnt_iter))
+        # logger.info("x_k=" + str(x_k))
+
         # 在 x_k 点处的函数导数值 g_k
         g_k = grad(x_k).reshape(-1, 1)
+        # logger.info("g_k=" + str(g_k))
+
+        # 终止条件检测
+        if np.linalg.norm(g_k, ord=2) < epsilon:
+            logger.info("g_k L2 norm < eps, 终止迭代")
+            break
 
         # d_k 是点 x_k 使得 func 下降的方向
+        d_k = -g_k
         # min func(x_k + alpha_k * d_k) -> alpha_k
-        alpha_k = -np.dot(g_k.T, g_k).squeeze() / (np.dot(
-            g_k.T, np.dot(G, g_k))).squeeze()
+        h_k = hessian(x_k)
+        alpha_k = np.dot(g_k.T, g_k).squeeze() / (np.dot(
+            g_k.T, np.dot(h_k, g_k))).squeeze()
 
-        x_k_1 = x_k + alpha_k * g_k
+        logger.info("步长 alpha=" + str(alpha_k))
+        x_k_1 = x_k + alpha_k * d_k
 
         # 计算此时迭代点 x_k_1 与最优解 x_star 的 loss
-        loss_k = np.fabs(func(x_k_1) - func(x_star))
+        loss_k = np.fabs(func(x_k_1) - f_minimun)
         loss.append(loss_k)
-        logger.info("iter " + str(cnt_iter))
-        logger.info("x_k=" + str(x_k.reshape(1, -1)))
+
         logger.info("loss_k=" + str(loss_k))
         logger.info("")
 
