@@ -39,24 +39,24 @@ logger = logging.getLogger()
 # question = ExtendedPowellSingular(m=4)
 question = BrownAndDennis(m=20)
 # question = Example()
-# total_iter, x_k, loss = InExactLineSearch(method="simple wolfe",
-#                                           start_point=question.x_0,
-#                                           func=question.func,
-#                                           grad=question.grad,
-#                                           x_star=None,
-#                                           f_minimun=question.f_minimun,
-#                                           epsilon=1e-8,
-#                                           logger=logger)
+total_iter, x_k, loss = InExactLineSearch(method="simple wolfe",
+                                          start_point=question.x_0,
+                                          func=question.func,
+                                          grad=question.grad,
+                                          x_star=None,
+                                          f_minimun=question.f_minimun,
+                                          epsilon=1e-8,
+                                          logger=logger)
 
-total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
-                                    func=question.func,
-                                    grad=question.grad,
-                                    x_star=question.x_star,
-                                    f_minimun=question.f_minimun,
-                                    epsilon=1e-8,
-                                    max_iters=1e3,
-                                    method="sr1 armijo interpolate22",
-                                    logger=logger)
+# total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
+#                                     func=question.func,
+#                                     grad=question.grad,
+#                                     x_star=question.x_star,
+#                                     f_minimun=question.f_minimun,
+#                                     epsilon=1e-8,
+#                                     max_iters=1e3,
+#                                     method="sr1 armijo interpolate22",
+#                                     logger=logger)
 
 logger.info("***** Final Results *****")
 logger.info("   迭代次数: " + str(total_iter))
