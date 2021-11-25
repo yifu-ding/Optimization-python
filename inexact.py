@@ -17,9 +17,8 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     f_k = func(x_k)
     g_k = grad(x_k)
     g_k_l2norm = np.linalg.norm(g_k, ord=2)
-    logger.info("g_k L2=" + str(g_k_l2norm))
     if g_k_l2norm < eps:
-        logger.info("g_k L2 < eps, 终止迭代")
+        # logger.info("g_k L2 < eps, 终止迭代")
         return alpha, x_k
 
     gk1_dk = np.dot(grad(x_k + alpha[0] * d_k).T, d_k)
@@ -74,12 +73,12 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
             raise NotImplementedError("method " + str(method) +
                                       " not implemented")
         if satisfy:
-            logger.info("在第" + str(_) + "次迭代，满足准则")
+            # logger.info("在第" + str(_) + "次迭代，满足准则")
             break
     if _ == m_max - 1:
-        logger.info("步长 alpha=" + str(alpha))
-        # raise RuntimeError("未满足准则，但达到迭代次数")
-        logger.warning("未满足准则，但达到迭代次数")
+        # logger.info("步长 alpha=" + str(alpha))
+        raise RuntimeError("未满足准则，但达到迭代次数")
+        # logger.warning("未满足准则，但达到迭代次数")
 
     x_k_1 = x_k + alpha[0] * d_k
     return alpha, x_k_1
@@ -100,7 +99,7 @@ def InExactLineSearch(method,
         f_minimun = func(x_star)
 
     for cnt_iter in range(int(max_iters)):
-        logger.info("iter " + str(cnt_iter))
+        # logger.info("iter " + str(cnt_iter))
         # logger.info("当前迭代点 x_k=" + str(x_k))
 
         g_k = grad(x_k).reshape(-1, 1)  # 在 x_k 点处的函数导数值 g_k
@@ -114,22 +113,22 @@ def InExactLineSearch(method,
                                  grad=grad,
                                  m_max=20,
                                  logger=logger)
-        logger.info("当前步长 alpha=" + str(alpha))
+        # logger.info("当前步长 alpha=" + str(alpha))
         # import pdb
         # pdb.set_trace()
         # 计算此时迭代点 x_k_1 与最优解 x_star 的 loss
-        if f_minimun is not None:
-            loss_k = np.fabs(func(x_k_1) - f_minimun)
-            loss.append(loss_k)
-            logger.info("loss_k=" + str(loss_k))
+        # if f_minimun is not None:
+        #     loss_k = np.fabs(func(x_k_1) - f_minimun)
+        #     loss.append(loss_k)
+        #     logger.info("loss_k=" + str(loss_k))
 
         diff = np.fabs(func(x_k_1) - func(x_k))
-        logger.info("diff=" + str(diff))
-        logger.info("")
+        # logger.info("diff=" + str(diff))
+        # logger.info("")
 
         # stopping criterion 终止判断
         if diff < epsilon:
-            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " + str(diff))
+            # logger.info("达到终止条件: func(x_k_1) - func(x_k) = " + str(diff))
             break
 
         x_k = x_k_1

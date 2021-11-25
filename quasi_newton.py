@@ -18,12 +18,12 @@ def QuasiNewton(start_point,
         f_minimun = func(x_star)
 
     for cnt_iter in range(int(max_iters)):
-        logger.info("iter " + str(cnt_iter))
+        # logger.info("iter " + str(cnt_iter))
 
         g_k = grad(x_k).reshape(-1, 1)
         # 终止条件检测
         if np.linalg.norm(g_k, ord=2) < epsilon:
-            logger.info("g_k L2 norm < eps, 终止迭代")
+            # logger.info("g_k L2 norm < eps, 终止迭代")
             break
         d_k = -np.dot(H, g_k)
         alpha, x_k_1 = criterion(method,
@@ -41,11 +41,11 @@ def QuasiNewton(start_point,
 
         # stopping criterion 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))
-        logger.info("diff=" + str(diff))
-        logger.info("")
+        # logger.info("diff=" + str(diff))
+        # logger.info("")
         if diff < epsilon:
-            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-                        str(np.fabs(func(x_k_1) - func(x_k))))
+            # logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+            #             str(np.fabs(func(x_k_1) - func(x_k))))
             break
 
         s = x_k_1 - x_k
@@ -59,6 +59,8 @@ def QuasiNewton(start_point,
         elif "bfgs" in method:
             h1 = 1 + np.dot(np.dot(y.T, H), y) / np.dot(y.T, s)
             h2 = np.dot(s, s.T) / np.dot(y.T, s)
+            # import pdb
+            # pdb.set_trace()
             h3 = np.dot(np.dot(s, y.T), H) + np.dot(np.dot(H, y), s.T)
             H = H + h1 * h2 - h3 / np.dot(y.T, s)
         else:

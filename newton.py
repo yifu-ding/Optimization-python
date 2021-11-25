@@ -18,7 +18,7 @@ def NewtonMethod(start_point,
     x_k, loss = start_point, []
 
     for cnt_iter in range(int(max_iters)):
-        logger.info("iter " + str(cnt_iter))
+        # logger.info("iter " + str(cnt_iter))
         g_k = grad(x_k).reshape(-1, 1)
         G_k = hessian(x_k)
         # G_k = hessian
@@ -30,7 +30,7 @@ def NewtonMethod(start_point,
             d_k = np.dot(np.linalg.inv(G_k), g_k)
         else:
             d_k = -g_k
-            logger.warning("Hessian 矩阵奇异, 不可用普通 Newton 方法求 d_k, 令 d_k = -g_k")
+            # logger.warning("Hessian 矩阵奇异, 不可用普通 Newton 方法求 d_k, 令 d_k = -g_k")
             # raise RuntimeError("det(G)==0")
 
         if "newton" in method:  # 普通 Newton 方法
@@ -75,14 +75,14 @@ def NewtonMethod(start_point,
 
         # stopping criterion 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))
-        logger.info("func(x_k_1)=" + str(func(x_k_1)))
-        logger.info("func(x_k)=" + str(func(x_k)))
-        logger.info("diff=" + str(diff))
-        logger.info("")
+        # logger.info("func(x_k_1)=" + str(func(x_k_1)))
+        # logger.info("func(x_k)=" + str(func(x_k)))
+        # logger.info("diff=" + str(diff))
+        # logger.info("")
 
         if diff < epsilon:
-            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-                        str(np.fabs(func(x_k_1) - func(x_k))))
+            # logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+            #             str(np.fabs(func(x_k_1) - func(x_k))))
             break
 
         x_k = x_k_1

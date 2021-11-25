@@ -8,7 +8,10 @@ class BrownAndDennis:
         self.m = m
         assert self.m >= self.n
         self.x_0 = np.array([25, 5, -5, -1], dtype="float32").reshape(-1, 1)
-        self.f_minimun = 85822.2
+        if m == 20:
+            self.f_minimun = 85822.2
+        else:
+            self.f_minimun = None
         self.call_f = 0
         self.x_star = None
 
@@ -23,6 +26,7 @@ class BrownAndDennis:
         return f
 
     def grad(self, x):
+        self.call_f += 1
         g = np.zeros_like(x, dtype="float32")
         for l in range(self.m):
             t = (l + 1) / 5.
@@ -36,6 +40,7 @@ class BrownAndDennis:
         return g
 
     def hessian(self, x):
+        self.call_f += 1
         h = np.zeros((self.n, self.n))
         for l in range(self.m):
             t = (l + 1) / 5.
