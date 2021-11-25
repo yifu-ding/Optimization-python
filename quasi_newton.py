@@ -59,8 +59,6 @@ def QuasiNewton(start_point,
         elif "bfgs" in method:
             h1 = 1 + np.dot(np.dot(y.T, H), y) / np.dot(y.T, s)
             h2 = np.dot(s, s.T) / np.dot(y.T, s)
-            # import pdb
-            # pdb.set_trace()
             h3 = np.dot(np.dot(s, y.T), H) + np.dot(np.dot(H, y), s.T)
             H = H + h1 * h2 - h3 / np.dot(y.T, s)
         else:

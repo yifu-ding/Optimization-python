@@ -30,9 +30,9 @@ logger = logging.getLogger()
 
 # func_name = "example"
 
-# question = ExtendedPowellSingular(m=20)
+question = ExtendedPowellSingular(m=20)
 # question = BrownAndDennis(m=40)
-question = BrownAlmostLinear(n=20)
+# question = BrownAlmostLinear(n=20)
 # question = Example()
 start_time = time.time()
 # total_iter, x_k, loss = InExactLineSearch(method="simple armijo",
