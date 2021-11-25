@@ -9,14 +9,15 @@ def QuasiNewton(start_point,
                 logger,
                 epsilon=1e-8,
                 max_iters=1e3,
-                method="sr1 wolfe interpolate22"
-                ):
+                method="sr1 wolfe interpolate22"):
     # 初始化
     x_k, loss, H = start_point, [], np.eye(len(start_point))
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
         g_k = grad(x_k).reshape(-1, 1)
+        import pdb
+        pdb.set_trace()
         # 终止条件检测
         if np.linalg.norm(g_k, ord=2) < epsilon:
             break

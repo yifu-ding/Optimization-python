@@ -77,7 +77,7 @@ total_iter, x_k, loss = QuasiNewton(start_point=x_0,
                                     x_star=x_star,
                                     epsilon=1e-8,
                                     max_iters=1e3,
-                                    method="sr1 wolfe interpolate22",
+                                    method="dfp wolfe interpolate22",
                                     logger=logger)
 
 logger.info("***** Final Results *****")

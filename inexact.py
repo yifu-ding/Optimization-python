@@ -57,7 +57,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
                          ) and np.abs(gk1_dk) <= -(sigma * np.dot(g_k.T, d_k)):
                 satisfy = True
             else:
-                satisfy = True
+                satisfy = False
         else:
             raise NotImplementedError("method " + str(method) +
                                       " not implemented")
