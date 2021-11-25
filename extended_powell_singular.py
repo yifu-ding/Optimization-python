@@ -31,6 +31,7 @@ class ExtendedPowellSingular:
         return f
 
     def grad(self, x):
+        self.call_f += 1
         n = x.shape[0]
         assert n % 4 == 0
         m = n
@@ -60,6 +61,7 @@ class ExtendedPowellSingular:
         return g
 
     def hessian(self, x):
+        self.call_f += 1
         n = x.shape[0]
         m = n
         J = np.zeros((m, m))

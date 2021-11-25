@@ -4,15 +4,15 @@ import numpy as np
 
 class BrownAlmostLinear:
     def __init__(self, n):
-        self.x_0 = np.append(np.array([0. for i in range(n - 1)]),
-                             10).reshape(-1, 1)
+        # self.x_0 = np.append(np.array([0. for i in range(n - 1)]),
+        #                      10).reshape(-1, 1)
+        self.x_0 = np.array([0.5 for i in range(n)]).reshape(-1, 1)
         self.f_minimun_0 = 0.
         self.x_minimun_0 = np.ones_like(self.x_0)
 
         self.f_minimun = 1.
         self.x_star = np.array([0. for i in range(n - 1)] + [n + 1])
         self.call_f = 0
-        
 
     def func(self, x):
         self.call_f += 1
@@ -29,6 +29,7 @@ class BrownAlmostLinear:
         return f
 
     def grad(self, x):
+        self.call_f += 1
         n = x.shape[0]
         g = np.zeros_like(x, dtype="float32")
         sum = -n - 1 + np.sum(x)
@@ -56,21 +57,23 @@ class BrownAlmostLinear:
         return g
 
     def hessian(self, x):
+        self.call_f += 1
         n = x.shape[0]
         J = np.zeros((n, n))
         sum = np.sum(x)
         for l in range(n - 1):
             J[l, :] = 1
             J[l, l] = 2
-        
+
         def mul_not_k(x, k1, k2):
             tmp = 1.
             for kk in range(n):
                 if kk != k1 and kk != k2:
                     tmp = tmp * x[kk]
             return tmp
+
         for j in range(n):
-            J[n-1, j] = mul_not_k(x, j, j)
+            J[n - 1, j] = mul_not_k(x, j, j)
         # print(J)
 
         G = np.dot(J.T, J)
@@ -85,8 +88,6 @@ class BrownAlmostLinear:
 
         G = G * 2
         return G
-    
-        
 
 
 if __name__ == '__main__':
