@@ -4,7 +4,13 @@ import numpy as np
 
 class ExtendedPowellSingular:
     def __init__(self, m=None):
-        self.x_0 = np.array([3, -1, 0, 1], dtype="float32").reshape(-1, 1)
+        self.x_0 = []
+        for i in range(m // 4):
+            self.x_0.append(3)
+            self.x_0.append(-1)
+            self.x_0.append(0)
+            self.x_0.append(1)
+        self.x_0 = np.array(self.x_0, dtype="float32").reshape(-1, 1)
         self.f_minimun = None
         self.call_f = 0
         self.x_star = None
