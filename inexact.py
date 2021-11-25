@@ -24,7 +24,7 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
                           m=_,
                           method=method)
 
-        f_k_1 = func(x_k + alpha[0] * d_k)
+        f_k_1 = func(x_k + np.squeeze(alpha[0] * d_k, axis=-1))
         f_k = func(x_k)
         g_k = grad(x_k)
 

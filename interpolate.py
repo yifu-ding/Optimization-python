@@ -5,7 +5,7 @@ import numpy as np
 # 两点两次插值 2-Point Quadric Intropolation
 def interpolate22(func, x_k, g_k, d_k, alpha):
     f_k = func(x_k)  # phi(0)
-    f_k_1 = func(x_k + alpha * d_k)  # phi(alpha_0)
+    f_k_1 = func(x_k + np.squeeze(alpha * d_k, axis=-1))  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
 
     alpha = -(gk_dk * alpha**2) / (2 * (f_k_1 - f_k - gk_dk * alpha))
