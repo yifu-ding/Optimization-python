@@ -7,6 +7,7 @@ from get_hessian import get_hessian
 from newton import NewtonMethod
 from inexact import InExactLineSearch
 from quasi_newton import QuasiNewton
+from brown_and_dennis import BrownAndDennis
 
 log_format = '%(asctime)s %(message)s'
 logging.basicConfig(stream=sys.stdout,
@@ -43,15 +44,6 @@ x_star = -np.dot(np.linalg.inv(G), b)
 #                                      epsilon=1e-8,
 #                                      logger=logger)
 
-# InExactLineSearch(method="armijo",
-#                   start_point=x_0,
-#                   func=func,
-#                   grad=grad,
-#                   G=G,
-#                   x_star=x_star,
-#                   epsilon=1e-8,
-#                   logger=logger)
-
 # func_name = "example"
 # total_iter, x_k, _ = NewtonMethod(start_point=x_0,
 #                                   func=func,
@@ -62,23 +54,25 @@ x_star = -np.dot(np.linalg.inv(G), b)
 #                                   max_iters=1e3,
 #                                   method="hybrid wolfe interpolate22",
 #                                   logger=logger)
-# total_iter, x_k, loss = InExactLineSearch(method="interpolate33 armijo",
-#                                           start_point=x_0,
-#                                           func=func,
-#                                           grad=grad,
-#                                           G=G,
-#                                           x_star=x_star,
-#                                           epsilon=1e-8,
-#                                           logger=logger)
+# eps = ExtendedPowellSingular()
+bad = BrownAndDennis(m=4)
+total_iter, x_k, loss = InExactLineSearch(method="interpolate22 armijo",
+                                          start_point=bad.x_0,
+                                          func=bad.func,
+                                          grad=bad.grad,
+                                          x_star=x_star,
+                                          f_minimun=bad.f_minimun,
+                                          epsilon=1e-8,
+                                          logger=logger)
 
-total_iter, x_k, loss = QuasiNewton(start_point=x_0,
-                                    func=func,
-                                    grad=grad,
-                                    x_star=x_star,
-                                    epsilon=1e-8,
-                                    max_iters=1e3,
-                                    method="dfp wolfe interpolate22",
-                                    logger=logger)
+# total_iter, x_k, loss = QuasiNewton(start_point=x_0,
+#                                     func=func,
+#                                     grad=grad,
+#                                     x_star=x_star,
+#                                     epsilon=1e-8,
+#                                     max_iters=1e3,
+#                                     method="bfgs strong_wolfe interpolate22",
+#                                     logger=logger)
 
 logger.info("***** Final Results *****")
 logger.info("   迭代次数: " + str(total_iter))

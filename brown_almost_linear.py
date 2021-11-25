@@ -1,3 +1,4 @@
+# coding=UTF-8
 import numpy as np
 
 
@@ -30,6 +31,6 @@ class BrownAlmostLinear:
         tmp = 1
         for l in range(n - 1):
             g[l] = 1 + 1
-            tmp *= x[j]
-        g[n] = tmp
+            tmp *= x[l]
+        g[n - 1] = tmp
         return g

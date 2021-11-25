@@ -1,3 +1,4 @@
+# coding=UTF-8
 import numpy as np
 from interpolate import get_alpha
 
@@ -36,6 +37,8 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
             satisfy = True
 
         if "armijo" in method:
+            import pdb
+            pdb.set_trace()
             if f_k_1 <= (f_k + rho * gk_dk_alpha):
                 satisfy = True
             else:
@@ -72,13 +75,15 @@ def InExactLineSearch(method,
                       start_point,
                       func,
                       grad,
-                      G,
-                      x_star,
+                      x_star=None,
+                      f_minimun=None,
                       epsilon=1e-8,
                       max_iters=1e3,
                       logger=None):
 
     x_k, loss = start_point, []
+    if x_star is None:
+        f_minimun = func(x_star)
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
@@ -97,7 +102,7 @@ def InExactLineSearch(method,
         logger.info("当前迭代点 x_k_1=" + str(x_k_1))
 
         # 计算此时迭代点 x_k_1 与最优解 x_star 的 loss
-        loss_k = np.fabs(func(x_k_1) - func(x_star))
+        loss_k = np.fabs(func(x_k_1) - f_minimun)
         loss.append(loss_k)
         logger.info("loss_k=" + str(loss_k))
         logger.info("")

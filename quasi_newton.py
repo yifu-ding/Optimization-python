@@ -1,3 +1,4 @@
+# coding=UTF-8
 import numpy as np
 from inexact import criterion
 
@@ -16,8 +17,6 @@ def QuasiNewton(start_point,
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
         g_k = grad(x_k).reshape(-1, 1)
-        import pdb
-        pdb.set_trace()
         # 终止条件检测
         if np.linalg.norm(g_k, ord=2) < epsilon:
             break
@@ -51,6 +50,7 @@ def QuasiNewton(start_point,
             H = H + (tmp * tmp.T) / (tmp.T * y)
         elif "dfp" in method:
             H = H + (s * s.T) / (s.T * y) - (H * y * y.T * H) / (y.T * H * y)
+            H[0, 1] = H[1, 0] = 0
         elif "bfgs" in method:
             H = H + (1 + (y.T * H * y) / (y.T * s)) * (s * s.T) / (y.T * s) - (
                 (s * y.T * H + H * y * s.T) / (y.T * s))
