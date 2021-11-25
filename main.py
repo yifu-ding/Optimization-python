@@ -29,8 +29,8 @@ logger = logging.getLogger()
 
 # func_name = "example"
 
-question = ExtendedPowellSingular(m=20)
-# question = BrownAndDennis(m=20)
+# question = ExtendedPowellSingular(m=20)
+question = BrownAndDennis(m=20)
 # question = BrownAlmostLinear(n=20)
 # question = Example()
 # total_iter, x_k, loss = InExactLineSearch(method="simple wolfe",
@@ -42,25 +42,25 @@ question = ExtendedPowellSingular(m=20)
 #                                           epsilon=1e-8,
 #                                           logger=logger)
 
-total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
-                                     func=question.func,
-                                     grad=question.grad,
-                                     hessian=question.hessian,
-                                     x_star=question.x_star,
-                                     epsilon=1e-8,
-                                     max_iters=1e3,
-                                     method="damped wolfe simple",
-                                     logger=logger)
+# total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
+#                                      func=question.func,
+#                                      grad=question.grad,
+#                                      hessian=question.hessian,
+#                                      x_star=question.x_star,
+#                                      epsilon=1e-8,
+#                                      max_iters=1e3,
+#                                      method="hybrid wolfe simple",
+#                                      logger=logger)
 
-# total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
-#                                     func=question.func,
-#                                     grad=question.grad,
-#                                     x_star=question.x_star,
-#                                     f_minimun=question.f_minimun,
-#                                     epsilon=1e-8,
-#                                     max_iters=1e3,
-#                                     method="sr1 wolfe simple",
-#                                     logger=logger)
+total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
+                                    func=question.func,
+                                    grad=question.grad,
+                                    x_star=question.x_star,
+                                    f_minimun=question.f_minimun,
+                                    epsilon=1e-8,
+                                    max_iters=1e3,
+                                    method="bfgs wolfe simple",
+                                    logger=logger)
 
 logger.info("***** Final Results *****")
 logger.info("   迭代次数: " + str(total_iter))

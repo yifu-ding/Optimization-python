@@ -19,6 +19,7 @@ def QuasiNewton(start_point,
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
+
         g_k = grad(x_k).reshape(-1, 1)
         # 终止条件检测
         if np.linalg.norm(g_k, ord=2) < epsilon:
@@ -50,14 +51,16 @@ def QuasiNewton(start_point,
         s = x_k_1 - x_k
         y = grad(x_k_1) - g_k
         if "sr1" in method:
-            tmp = s - H * y
-            H = H + (tmp * tmp.T) / (tmp.T * y)
+            tmp = s - np.dot(H, y)
+            H = H + np.dot(tmp, tmp.T) / np.dot(tmp.T, y)
         elif "dfp" in method:
-            H = H + (s * s.T) / (s.T * y) - (H * y * y.T * H) / (y.T * H * y)
-            H[0, 1] = H[1, 0] = 0
+            H = H + np.dot(s, s.T) / np.dot(s.T, y) - np.dot(
+                np.dot(np.dot(H, y), y.T), H) / np.dot(np.dot(y.T, H), y)
         elif "bfgs" in method:
-            H = H + (1 + (y.T * H * y) / (y.T * s)) * (s * s.T) / (y.T * s) - (
-                (s * y.T * H + H * y * s.T) / (y.T * s))
+            h1 = 1 + np.dot(np.dot(y.T, H), y) / np.dot(y.T, s)
+            h2 = np.dot(s, s.T) / np.dot(y.T, s)
+            h3 = np.dot(np.dot(s, y.T), H) + np.dot(np.dot(H, y), s.T)
+            H = H + h1 * h2 - h3 / np.dot(y.T, s)
         else:
             raise NotImplementedError("未定义的拟牛顿方法")
 
