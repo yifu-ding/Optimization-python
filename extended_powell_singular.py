@@ -11,7 +11,7 @@ class ExtendedPowellSingular:
             self.x_0.append(0)
             self.x_0.append(1)
         self.x_0 = np.array(self.x_0, dtype="float32").reshape(-1, 1)
-        self.f_minimun = None
+        self.f_minimun = 0
         self.call_f = 0
         self.x_star = None
         pass
