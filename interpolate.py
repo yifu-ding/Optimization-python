@@ -4,7 +4,8 @@ import numpy as np
 
 # 两点两次插值 2-Point Quadric Intropolation
 def interpolate22(func, x_k, g_k, d_k, alpha):
-
+    # import pdb
+    # pdb.set_trace()
     f_k = func(x_k)  # phi(0)
     f_k_1 = func(x_k + alpha * d_k)  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
@@ -24,7 +25,7 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
     # 三次插值函数 p(x) = ax^3 + bx^2 + cx + d
     #        导数 p'(x) = 3ax^2 + 2bx + c
     # 由插值条件 d = phi(0), c = phi'(0), 解关于 a, b 的线性方程组
-    flag = False
+    has_real_root = False
     try:
         if alpha_0 != 0 and alpha_1 != 0 and alpha_1 != alpha_0:
             mat_0 = np.array(
@@ -48,11 +49,11 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
 
             if np.isreal(r).sum() == r.shape[0]:
                 alpha_2 = np.max(r)
-                flag = True
+                has_real_root = True
     except:
         pass
 
-    if not flag:
+    if not has_real_root:
         logger.info("方程的解不是实数，改用两点两次插值")
         alpha_2 = interpolate22(func, x_k, g_k, d_k, alpha_1)
     return np.array([alpha_2, alpha_1], dtype="float32").reshape(-1, 1)
