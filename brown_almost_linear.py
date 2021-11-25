@@ -10,8 +10,9 @@ class BrownAlmostLinear:
         self.x_minimun_0 = np.ones_like(self.x_0)
 
         self.f_minimun = 1.
-        self.x_minimun = np.array([0. for i in range(n - 1)] + [n + 1])
+        self.x_star = np.array([0. for i in range(n - 1)] + [n + 1])
         self.call_f = 0
+        
 
     def func(self, x):
         self.call_f += 1
