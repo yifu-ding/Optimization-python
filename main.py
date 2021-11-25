@@ -28,16 +28,8 @@ logger = logging.getLogger()
 #                                      logger=logger)
 
 # func_name = "example"
-# total_iter, x_k, _ = NewtonMethod(start_point=x_0,
-#                                   func=func,
-#                                   grad=grad,
-#                                   hessian=get_hessian(func_name),
-#                                   x_star=x_star,
-#                                   epsilon=1e-8,
-#                                   max_iters=1e3,
-#                                   method="hybrid wolfe interpolate22",
-#                                   logger=logger)
-question = ExtendedPowellSingular(m=4)
+
+question = ExtendedPowellSingular(m=20)
 # question = BrownAndDennis(m=20)
 # question = BrownAlmostLinear(n=20)
 # question = Example()
@@ -49,6 +41,16 @@ total_iter, x_k, loss = InExactLineSearch(method="simple wolfe",
                                           f_minimun=question.f_minimun,
                                           epsilon=1e-8,
                                           logger=logger)
+
+# total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
+#                                      func=question.func,
+#                                      grad=question.grad,
+#                                      hessian=question.hessian,
+#                                      x_star=quesion.x_star,
+#                                      epsilon=1e-8,
+#                                      max_iters=1e3,
+#                                      method="hybrid wolfe interpolate22",
+#                                      logger=logger)
 
 # total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
 #                                     func=question.func,

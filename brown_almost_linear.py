@@ -4,7 +4,8 @@ import numpy as np
 
 class BrownAlmostLinear:
     def __init__(self, n):
-        self.x_0 = np.array([0.5 for i in range(n)]).reshape(-1, 1)
+        self.x_0 = np.append(np.array([0. for i in range(n - 1)]),
+                             10).reshape(-1, 1)
         self.f_minimun_0 = 0.
         self.x_minimun_0 = np.ones_like(self.x_0)
 

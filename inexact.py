@@ -100,11 +100,11 @@ def InExactLineSearch(method,
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
-        # logger.info("当前迭代点 x_k=" + str(x_k))
+        logger.info("当前迭代点 x_k=" + str(x_k))
 
         g_k = grad(x_k).reshape(-1, 1)  # 在 x_k 点处的函数导数值 g_k
         d_k = -g_k  # 最速下降方法的搜索方向
-        # logger.info("最速下降方法搜索方向 d_k=" + str(d_k))
+        logger.info("最速下降方法搜索方向 d_k=" + str(d_k))
 
         alpha, x_k_1 = criterion(method=method,
                                  x_k=x_k,
