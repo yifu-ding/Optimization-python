@@ -30,3 +30,9 @@ class BrownAndDennis:
             g[2] += 2 * (x[2] + x[3] * np.sin(t) - np.cos(t))
             g[3] += 2 * (x[2] + x[3] * np.sin(t) - np.cos(t)) * np.sin(t)
         return g
+
+if __name__ == '__main__':
+    bad = BrownAndDennis(m=20)
+    x = bad.x_0
+    print(bad.func(x))
+    print(bad.grad(x))
