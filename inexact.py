@@ -6,9 +6,9 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     # TODO: 参数说明
     # TODO: 初始化说明
     beta = 0.5  # armijo 变体方法，步长的初始值
-    rho = 1e-4  # refer to book P21
+    rho = 1e-3  # refer to book P21
     eps = 1e-8
-    sigma = 0.9  # 越小越接近精确线搜索
+    sigma = 0.5  # 越小越接近精确线搜索
     alpha = np.array([0.1], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
         alpha = np.array([0.1, 0.5], dtype="float32").reshape(-1, 1)
