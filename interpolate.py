@@ -7,7 +7,6 @@ def interpolate22(func, x_k, g_k, d_k, alpha):
     f_k = func(x_k)  # phi(0)
     f_k_1 = func(x_k + np.squeeze(alpha * d_k, axis=-1))  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
-
     alpha = -(gk_dk * alpha**2) / (2 * (f_k_1 - f_k - gk_dk * alpha))
     return alpha
 
@@ -15,8 +14,8 @@ def interpolate22(func, x_k, g_k, d_k, alpha):
 # 三点三次插值 3-Point Cubic Intropolation
 def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
     f_k = func(x_k)  # phi(0)
-    f_k_0 = func(x_k + alpha_0 * d_k)  # phi(alpha_0)
-    f_k_1 = func(x_k + alpha_1 * d_k)  # phi(alpha_1)
+    f_k_0 = func(x_k + np.squeeze(alpha_0 * d_k, axis=-1))  # phi(alpha_0)
+    f_k_1 = func(x_k + np.squeeze(alpha_1 * d_k, axis=-1))  # phi(alpha_1)
 
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
     # 三次插值函数 p(x) = ax^3 + bx^2 + cx + d
@@ -29,6 +28,8 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
                 [[alpha_0**2, -alpha_1**2], [-alpha_0**3, alpha_1**3]],
                 dtype="float32")
             mat_0 = np.squeeze(mat_0, axis=-1)
+            # import pdb
+            # pdb.set_trace()
             mat_1 = np.array(
                 [f_k_1 - f_k - gk_dk * alpha_1, f_k_0 - f_k - gk_dk * alpha_0],
                 dtype="float32").reshape([-1, 1])
@@ -49,8 +50,7 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
         pass
 
     if not flag:
-        # logger.info("方程的解不是实数，改用两点两次插值")
-        print("方程的解不是实数，改用两点两次插值")
+        logger.info("方程的解不是实数，改用两点两次插值")
         alpha_2 = interpolate22(func, x_k, g_k, d_k, alpha_1)
     return np.array([alpha_2, alpha_1], dtype="float32").reshape(-1, 1)
 
@@ -67,7 +67,7 @@ def get_alpha(x_k, d_k, alpha, beta, func, grad, m, method="simple armijo"):
 
     if "simple" in method:
         # armijo 的变体 beta**m
-        return beta**m
+        return np.array([beta**m], dtype="float32").reshape(-1, 1)
 
     g_k = grad(x_k)
     if "interpolate22" in method:

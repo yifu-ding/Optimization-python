@@ -7,10 +7,12 @@ class BrownAndDennis:
         self.n = 4
         self.m = m
         assert self.m >= self.n
-        self.x_0 = np.array([25, 5, -5, -1], dtype="float32")
+        self.x_0 = np.array([25, 5, -5, -1], dtype="float32").reshape(-1, 1)
         self.f_minimun = 85822.2
+        self.call_f = 0
 
     def func(self, x):
+        self.call_f += 1
         f = 0
         for l in range(self.m):
             t = l / 5.
@@ -20,8 +22,6 @@ class BrownAndDennis:
 
     def grad(self, x):
         g = np.zeros_like(x, dtype="float32")
-        # import pdb
-        # pdb.set_trace()
         for l in range(self.m):
             t = l / 5.
             g[0] += 2 * (x[0] + t * x[1] - np.exp(t))

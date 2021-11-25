@@ -4,9 +4,13 @@ import numpy as np
 
 class ExtendedPowellSingular:
     def __init__(self, m=None):
+        self.x_0 = np.array([3, -1, 0, 1], dtype="float32").reshape(-1, 1)
+        self.f_minimun = None
+        self.call_f = 0
         pass
 
     def func(self, x):
+        self.call_f += 1
         n = x.shape[0]
         assert n % 4 == 0
         m = n
@@ -21,6 +25,8 @@ class ExtendedPowellSingular:
 
     def grad(self, x):
         n = x.shape[0]
+        # import pdb
+        # pdb.set_trace()
         assert n % 4 == 0
         m = n
         g = np.zeros((n, ), dtype=np.float64)
@@ -51,6 +57,6 @@ class ExtendedPowellSingular:
 
 if __name__ == '__main__':
     eps = ExtendedPowellSingular()
-    X = np.array([1, 2, 3, 4])
+    X = np.array([0, 0, 0, 0])
     print(eps.func(X))
     print(eps.grad(X))
