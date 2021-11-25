@@ -55,7 +55,7 @@ total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
                                     f_minimun=question.f_minimun,
                                     epsilon=1e-8,
                                     max_iters=1e3,
-                                    method="sr1 armijo interpolate22",
+                                    method="sr1 wolfe simple",
                                     logger=logger)
 
 logger.info("***** Final Results *****")
