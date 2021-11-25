@@ -9,8 +9,8 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
     beta = 0.5  # armijo 变体方法步长的初始值
     rho = 1e-4  # refer to book P21
     eps = 1e-8
-    sigma = 0.5  # 越小越接近精确线搜索
-    alpha = np.array([5.], dtype="float32").reshape(-1, 1)  # init
+    sigma = 0.9  # 越小越接近精确线搜索
+    alpha = np.array([0.5], dtype="float32").reshape(-1, 1)  # init
     if "interpolate33" in method:
         alpha = np.array([10., 5.], dtype="float32").reshape(-1, 1)
 
@@ -78,7 +78,8 @@ def criterion(method, x_k, d_k, func, grad, m_max, logger):
             break
     if _ == m_max - 1:
         logger.info("步长 alpha=" + str(alpha))
-        raise RuntimeError("未满足准则，但达到迭代次数")
+        # raise RuntimeError("未满足准则，但达到迭代次数")
+        logger.warning("未满足准则，但达到迭代次数")
 
     x_k_1 = x_k + alpha[0] * d_k
     return alpha, x_k_1
@@ -100,11 +101,11 @@ def InExactLineSearch(method,
 
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
-        logger.info("当前迭代点 x_k=" + str(x_k))
+        # logger.info("当前迭代点 x_k=" + str(x_k))
 
         g_k = grad(x_k).reshape(-1, 1)  # 在 x_k 点处的函数导数值 g_k
         d_k = -g_k  # 最速下降方法的搜索方向
-        logger.info("最速下降方法搜索方向 d_k=" + str(d_k))
+        # logger.info("最速下降方法搜索方向 d_k=" + str(d_k))
 
         alpha, x_k_1 = criterion(method=method,
                                  x_k=x_k,

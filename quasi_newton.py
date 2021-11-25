@@ -33,10 +33,10 @@ def QuasiNewton(start_point,
                                  m_max=20,
                                  logger=logger)
 
-        loss_k = np.fabs(func(x_k_1) - f_minimun)
-        loss.append(loss_k)
-        logger.info("x_k=" + str(x_k.reshape(1, -1)))
-        logger.info("loss_k=" + str(loss_k))
+        # loss_k = np.fabs(func(x_k_1) - f_minimun)
+        # loss.append(loss_k)
+        # logger.info("x_k=" + str(x_k.reshape(1, -1)))
+        # logger.info("loss_k=" + str(loss_k))
 
         # stopping criterion 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))

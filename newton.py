@@ -20,8 +20,8 @@ def NewtonMethod(start_point,
     for cnt_iter in range(int(max_iters)):
         logger.info("iter " + str(cnt_iter))
         g_k = grad(x_k).reshape(-1, 1)
-        # G_k = hessian(x_k)
-        G_k = hessian
+        G_k = hessian(x_k)
+        # G_k = hessian
 
         # newton 方向: d_k = -G^{-1}_k .* g_k
 
@@ -68,11 +68,11 @@ def NewtonMethod(start_point,
         else:
             raise NotImplementedError("未定义的 Newton 方法")
 
-        loss_k = np.fabs(func(x_k_1) - func(x_star))
-        loss.append(loss_k)
-        logger.info("iter " + str(cnt_iter))
-        logger.info("x_k=" + str(x_k.reshape(1, -1)))
-        logger.info("loss_k=" + str(loss_k))
+        # loss_k = np.fabs(func(x_k_1) - func(x_star))
+        # loss.append(loss_k)
+        # logger.info("iter " + str(cnt_iter))
+        # logger.info("x_k=" + str(x_k.reshape(1, -1)))
+        # logger.info("loss_k=" + str(loss_k))
 
         # stopping criterion 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))
