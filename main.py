@@ -31,8 +31,8 @@ logger = logging.getLogger()
 # func_name = "example"
 
 # question = ExtendedPowellSingular(m=40)
-# question = BrownAndDennis(m=40)
-question = BrownAlmostLinear(n=60)
+question = BrownAndDennis(m=20)
+# question = BrownAlmostLinear(n=20)
 # question = Example()
 start_time = time.time()
 # total_iter, x_k, loss = InExactLineSearch(method="simple armijo",
@@ -51,7 +51,7 @@ total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
                                      x_star=question.x_star,
                                      epsilon=1e-8,
                                      max_iters=1e3,
-                                     method="newton strong_wolfe simple",
+                                     method="lm strong_wolfe simple",
                                      logger=logger)
 
 # total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,

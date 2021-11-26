@@ -63,7 +63,21 @@ def NewtonMethod(start_point,
                                      logger=logger)
 
         elif "lm" in method:  # LM 方法
-            raise NotImplementedError("有时间就写 LM 方法")
+            v_0 = 1e-2
+            while not np.all(np.linalg.eigvals(G_k) > 0):
+                G_k += np.eye(G_k.shape[0]) * v_0
+                v_0 *= 2
+            d_k = -np.dot(np.linalg.inv(G_k), g_k)
+
+            alpha, x_k_1 = criterion(method,
+                                     x_k,
+                                     d_k,
+                                     func,
+                                     grad,
+                                     m_max=20,
+                                     logger=logger)
+
+            # raise NotImplementedError("有时间就写 LM 方法")
         else:
             raise NotImplementedError("未定义的 Newton 方法")
 
