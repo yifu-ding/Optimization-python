@@ -26,7 +26,7 @@
 
 
 ### 文件结构
-```sh
+```
 |- run.sh
 |- main.py
 |- functions
