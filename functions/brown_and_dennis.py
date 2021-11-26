@@ -65,6 +65,5 @@ class BrownAndDennis:
 if __name__ == '__main__':
     bad = BrownAndDennis(m=20)
     x = bad.x_0
-    # x = np.array([1, 2, 3, 4])
     print(bad.func(x))
     print(bad.grad(x))

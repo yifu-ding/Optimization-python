@@ -1,6 +1,6 @@
 # coding=UTF-8
 import numpy as np
-from inexact import criterion
+from .criterion import criterion
 
 
 def QuasiNewton(start_point,
@@ -8,11 +8,13 @@ def QuasiNewton(start_point,
                 grad,
                 x_star,
                 f_minimun,
-                logger,
-                epsilon=1e-8,
                 max_iters=1e3,
-                method="sr1 wolfe interpolate22"):
-    # 初始化
+                epsilon=1e-8,
+                rho=1e-4,
+                sigma=0.9,
+                method="sr1 wolfe interpolate22",
+                logger=None):
+
     x_k, loss, H = start_point, [], np.eye(len(start_point))
     if x_star is not None:
         f_minimun = func(x_star)
@@ -21,31 +23,27 @@ def QuasiNewton(start_point,
         # logger.info("iter " + str(cnt_iter))
 
         g_k = grad(x_k).reshape(-1, 1)
-        # 终止条件检测
+        # ||g|| < eps 终止判断
         if np.linalg.norm(g_k, ord=2) < epsilon:
             # logger.info("g_k L2 norm < eps, 终止迭代")
             break
         d_k = -np.dot(H, g_k)
-        alpha, x_k_1 = criterion(method,
-                                 x_k,
-                                 d_k,
-                                 func,
-                                 grad,
+        alpha, x_k_1 = criterion(method=method,
+                                 x_k=x_k,
+                                 d_k=d_k,
+                                 func=func,
+                                 grad=grad,
                                  m_max=20,
+                                 rho=rho,
+                                 eps=epsilon,
+                                 sigma=sigma,
                                  logger=logger)
 
-        # loss_k = np.fabs(func(x_k_1) - f_minimun)
-        # loss.append(loss_k)
-        # logger.info("x_k=" + str(x_k.reshape(1, -1)))
-        # logger.info("loss_k=" + str(loss_k))
-
-        # stopping criterion 终止判断
+        # |f(x_k_1) - f(x_k)| < eps 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))
-        # logger.info("diff=" + str(diff))
-        # logger.info("")
         if diff < epsilon:
-            # logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-            #             str(np.fabs(func(x_k_1) - func(x_k))))
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
             break
 
         s = x_k_1 - x_k
@@ -62,8 +60,8 @@ def QuasiNewton(start_point,
             h3 = np.dot(np.dot(s, y.T), H) + np.dot(np.dot(H, y), s.T)
             H = H + h1 * h2 - h3 / np.dot(y.T, s)
         else:
-            raise NotImplementedError("未定义的拟牛顿方法")
+            raise NotImplementedError("未定义的 Quasi-Newton 方法")
 
         x_k = x_k_1
 
-    return cnt_iter, x_k, loss
+    return cnt_iter, x_k
