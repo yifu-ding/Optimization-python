@@ -26,6 +26,7 @@
 
 
 ### 文件结构
+```sh
 |- run.sh
 |- main.py
 |- functions
@@ -39,7 +40,7 @@
 	|- inexact.py
 	|- newton.py
 	|- quasi_newton.py
-
+```
 ### 运行脚本示例
 
 ```sh
