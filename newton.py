@@ -59,7 +59,7 @@ def NewtonMethod(start_point,
                                      d_k,
                                      func,
                                      grad,
-                                     m_max=20,
+                                     m_max=100,
                                      logger=logger)
 
         elif "lm" in method:  # LM 方法
@@ -74,7 +74,7 @@ def NewtonMethod(start_point,
                                      d_k,
                                      func,
                                      grad,
-                                     m_max=20,
+                                     m_max=100,
                                      logger=logger)
 
             # raise NotImplementedError("有时间就写 LM 方法")

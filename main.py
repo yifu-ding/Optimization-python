@@ -30,29 +30,29 @@ logger = logging.getLogger()
 
 # func_name = "example"
 
-# question = ExtendedPowellSingular(m=40)
-question = BrownAndDennis(m=20)
+question = ExtendedPowellSingular(m=40)
+# question = BrownAndDennis(m=50)
 # question = BrownAlmostLinear(n=20)
 # question = Example()
 start_time = time.time()
-# total_iter, x_k, loss = InExactLineSearch(method="simple armijo",
-#                                           start_point=question.x_0,
-#                                           func=question.func,
-#                                           grad=question.grad,
-#                                           x_star=None,
-#                                           f_minimun=question.f_minimun,
-#                                           epsilon=1e-8,
-#                                           logger=logger)
+total_iter, x_k, loss = InExactLineSearch(method="simple armijo",
+                                          start_point=question.x_0,
+                                          func=question.func,
+                                          grad=question.grad,
+                                          x_star=None,
+                                          f_minimun=question.f_minimun,
+                                          epsilon=1e-8,
+                                          logger=logger)
 
-total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
-                                     func=question.func,
-                                     grad=question.grad,
-                                     hessian=question.hessian,
-                                     x_star=question.x_star,
-                                     epsilon=1e-8,
-                                     max_iters=1e3,
-                                     method="lm strong_wolfe simple",
-                                     logger=logger)
+# total_iter, x_k, loss = NewtonMethod(start_point=question.x_0,
+#                                      func=question.func,
+#                                      grad=question.grad,
+#                                      hessian=question.hessian,
+#                                      x_star=question.x_star,
+#                                      epsilon=1e-8,
+#                                      max_iters=1e3,
+#                                      method="lm strong_wolfe simple",
+#                                      logger=logger)
 
 # total_iter, x_k, loss = QuasiNewton(start_point=question.x_0,
 #                                     func=question.func,

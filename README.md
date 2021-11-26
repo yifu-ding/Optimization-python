@@ -4,38 +4,55 @@
 
 ### 编写程序
 
-- 线搜索
-	- 精确线搜索
-	- 非精确线搜索的 Armijo 搜索准则
-- 最速下降法及 Newton 法
+- 线搜索准则
+	- 非精确线搜索的 Armijo 准则、Goldstein 准则、Wolfe 准则、强 Wolfe 准则
+- Newton 法
+	- 普通 Newton 法
 	- 阻尼 Newton 方法
-	- 修正 Newton 法 (混合 Newton 法，LM 方法，稳定 Newton 法)
+	- 混合 Newton 法
+	- LM 方法
 - 拟 Newton 法
 	- 对称秩 1 方法 (SR1)
 	- BFGS 方法
 	- DFP 方法
 
-### 数值实验
-
-1) 比较不同Newton型方法的有效性, 通过实验, 分析方法的特点.
-
-2) 对每个实验题目, 自选讨论一个问题.
-
-3) 线搜索准则如选强 Wolfe 准则，可取ρ=10-4 , σ=0.9.
-
 ### 实验题目
 
-见“More-testing”:
-
 1) (16) Brown and Dennis function, m=4, 10, 20, 30, 40, 50. 
-
-``` python
-t = lambda l: l / 5.
-func = lambda t_l, x: (x[0] + t_l * x[1] - np.exp(t_l))**2 + (x[2] + x[
-    3] * np.sin(t_l) - np.cos(t_l))**2
-grad = lambda t_l, x: 0  # TODO
-```
 
 2) (22) Extended Powell singular function, m=20,40,60,80,100. 
 
 3) (27) Brown almost linear function, n=20, 40, 60, 80, 100.
+
+
+### 文件结构
+|- run.sh
+|- main.py
+|- functions
+	|- brown_almost_linear.py
+	|- brown_and_dennis.py
+	|- example.py 
+	|- extended_powell_singular.py
+|- methods
+	|- criterion.py
+	|- get_stepsize.py
+	|- inexact.py
+	|- newton.py
+	|- quasi_newton.py
+
+### 运行脚本示例
+
+```sh
+python3 main.py \
+	--func_name name_of_objective_function \
+	--stepsize_method method_of_getting_stepsize \
+	--criterion_method method_of_criterion \
+	--opt_method optimization_method \
+	--max_iters maximum_iteration_numbers \
+	--rho value_of_rho \
+	--sigma value_of_sigma \
+	--eps stopping_criterion \
+	--m dimention_of_objective_function
+```
+
+更多参数详见主程序`./main.py`\#L20
