@@ -26,6 +26,7 @@
 
 
 ### 文件结构
+
 ```
 |- run.sh
 |- main.py
@@ -41,6 +42,7 @@
 	|- newton.py
 	|- quasi_newton.py
 ```
+
 ### 运行脚本示例
 
 ```sh
@@ -56,4 +58,4 @@ python3 main.py \
 	--m dimention_of_objective_function
 ```
 
-更多参数详见主程序`./main.py`\#L20
+更多参数详见主程序`./main.py#L20`

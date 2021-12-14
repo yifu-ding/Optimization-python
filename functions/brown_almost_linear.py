@@ -3,10 +3,9 @@ import numpy as np
 
 
 class BrownAlmostLinear:
-    def __init__(self, n):
-        # self.x_0 = np.append(np.array([0. for i in range(n - 1)]),
-        #                      10).reshape(-1, 1)
-        self.x_0 = np.array([0.5 for i in range(n)]).reshape(-1, 1)
+    def __init__(self, m):
+        n = m
+        self.x_0 = np.array([0.5 for i in range(m)]).reshape(-1, 1)
         self.f_minimun_0 = 0.
         self.x_minimun_0 = np.ones_like(self.x_0)
 
@@ -92,9 +91,5 @@ class BrownAlmostLinear:
 
 if __name__ == '__main__':
     bal = BrownAlmostLinear(5)
-    # x = bal.x_minimun_0
     print(bal.hessian(bal.x_minimun_0))
     print(bal.hessian(bal.x_minimun))
-    # print(bal.func(bal.x_minimun_1))
-    # print(bal.func(bal.x_0))
-    # print(bal.grad(bal.x_0))
