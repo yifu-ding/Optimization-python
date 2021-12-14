@@ -6,6 +6,7 @@ from .criterion import criterion
 def QuasiNewton(start_point,
                 func,
                 grad,
+                hessian,
                 x_star,
                 f_minimun,
                 max_iters=1e3,

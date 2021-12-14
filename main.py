@@ -75,48 +75,30 @@ def main():
         logger.warning(
             "Unstable behavior due to unknown bug, please dont use it.")
 
-    if args.opt_method == "inexact":
-        total_iter, x_k = InExactLineSearch(method=args.stepsize_method +
-                                            args.criterion_method,
-                                            start_point=question.x_0,
-                                            func=question.func,
-                                            grad=question.grad,
-                                            x_star=None,
-                                            f_minimun=question.f_minimun,
-                                            max_iters=args.max_iters,
-                                            epsilon=args.eps,
-                                            rho=args.rho,
-                                            sigma=args.sigma,
-                                            logger=logger)
-    elif (args.opt_method == "newton") or (args.opt_method == "damped") or (
-            args.opt_method == "hybrid") or (args.opt_method == "lm"):
-        total_iter, x_k = NewtonMethod(start_point=question.x_0,
-                                       func=question.func,
-                                       grad=question.grad,
-                                       hessian=question.hessian,
-                                       x_star=question.x_star,
-                                       max_iters=args.max_iters,
-                                       epsilon=args.eps,
-                                       rho=args.rho,
-                                       sigma=args.sigma,
-                                       method=args.stepsize_method +
-                                       args.criterion_method + args.opt_method,
-                                       logger=logger)
-    elif (args.opt_method == "sr1") or (args.opt_method
-                                        == "bfgs") or (args.opt_method
-                                                       == "dfp"):
-        total_iter, x_k = QuasiNewton(start_point=question.x_0,
-                                      func=question.func,
-                                      grad=question.grad,
-                                      x_star=question.x_star,
-                                      f_minimun=question.f_minimun,
-                                      max_iters=args.max_iters,
-                                      epsilon=args.eps,
-                                      rho=args.rho,
-                                      sigma=args.sigma,
-                                      method=args.stepsize_method +
-                                      args.criterion_method + args.opt_method,
-                                      logger=logger)
+    methods={
+        'inexact': InExactLineSearch,
+        'newton' : NewtonMethod,
+        'damped' : NewtonMethod,
+        'hybrid' : NewtonMethod,
+        'lm' : NewtonMethod,
+        'sr1': QuasiNewton,
+        'bfgs': QuasiNewton,
+        'dfp': QuasiNewton,
+    }
+
+    total_iter, x_k = methods[args.opt_method](start_point=question.x_0,
+                                                func=question.func,
+                                                grad=question.grad,
+                                                hessian=question.hessian,
+                                                x_star=question.x_star,
+                                                f_minimun=question.f_minimun,
+                                                max_iters=args.max_iters,
+                                                epsilon=args.eps,
+                                                rho=args.rho,
+                                                sigma=args.sigma,
+                                                method=args.stepsize_method +
+                                                args.criterion_method + args.opt_method,
+                                                logger=logger)
     else:
         raise NotImplementedError("Optimization method is not implemented.")
 
