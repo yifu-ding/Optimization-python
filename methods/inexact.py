@@ -1,18 +1,18 @@
 # coding=UTF-8
 import numpy as np
-# from criterion import criterion
 
 
-def InExactLineSearch(method,
-                      start_point,
+def InExactLineSearch(start_point,
                       func,
                       grad,
+                      hessian=None,
                       x_star=None,
                       f_minimun=None,
                       max_iters=1e3,
                       epsilon=1e-8,
                       rho=1e-4,
                       sigma=0.9,
+                      method=None,
                       logger=None):
 
     x_k, loss = start_point, []
