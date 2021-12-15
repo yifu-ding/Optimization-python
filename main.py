@@ -25,7 +25,8 @@ def main():
                         help="Name of the objective function.",
                         choices=[
                             "example", "brown_and_dennis",
-                            "brown_almost_linear", "extended_powell_singular"
+                            "brown_almost_linear", "extended_powell_singular",
+                            "penalty", "trigonometric", "extended_rosenbrock"
                         ])
     parser.add_argument("--stepsize_method",
                         default="simple",
