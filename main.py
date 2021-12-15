@@ -5,8 +5,8 @@ import sys
 import time
 import argparse
 
-from functions import BrownAndDennis, BrownAlmostLinear, Example, ExtendedPowellSingular
-from methods import InExactLineSearch, NewtonMethod, QuasiNewton
+from functions import BrownAndDennis, BrownAlmostLinear, Example, ExtendedPowellSingular, Penalty, Trigonometric, ExtendedRosenbrock
+from methods import InExactLineSearch, NewtonMethod, QuasiNewton, LBFGS, ConjugateGradient
 
 # logger settings
 log_format = '%(asctime)s %(message)s'
@@ -44,7 +44,8 @@ def main():
                         help="Optimization method.",
                         choices=[
                             'inexact', 'newton', 'damped', 'hybrid', 'lm',
-                            'sr1', 'bfgs', 'dfp'
+                            'sr1', 'bfgs', 'dfp', 'lbfgs', 'fr', 'prp', 'prp+',
+                            'bb'
                         ])
     parser.add_argument("--max_iters",
                         default=1e3,
@@ -60,47 +61,53 @@ def main():
 
     args = parser.parse_args()
 
-    if args.func_name == "brown_and_dennis":
-        question = BrownAndDennis(m=args.m)
-    elif args.func_name == "extended_powell_singular":
-        question = ExtendedPowellSingular(m=args.m)
-    elif args.func_name == "brown_almost_linear":
-        question = BrownAlmostLinear(m=args.m)
-    else:
-        question = Example()
-
-    start_time = time.process_time()
+    methods = {
+        'inexact': InExactLineSearch,
+        'newton': NewtonMethod,
+        'damped': NewtonMethod,
+        'hybrid': NewtonMethod,
+        'lm': NewtonMethod,
+        'sr1': QuasiNewton,
+        'bfgs': QuasiNewton,
+        'dfp': QuasiNewton,
+        'lbfgs': LBFGS,
+        'fr': ConjugateGradient,
+        'prp': ConjugateGradient,
+        'prp+': ConjugateGradient,
+        'bb': ConjugateGradient,
+    }
 
     if args.stepsize_method != "simple":
         logger.warning(
             "Unstable behavior due to unknown bug, please dont use it.")
 
-    methods={
-        'inexact': InExactLineSearch,
-        'newton' : NewtonMethod,
-        'damped' : NewtonMethod,
-        'hybrid' : NewtonMethod,
-        'lm' : NewtonMethod,
-        'sr1': QuasiNewton,
-        'bfgs': QuasiNewton,
-        'dfp': QuasiNewton,
+    questions = {
+        'brown_and_dennis': BrownAndDennis,
+        'extended_powell_singular': ExtendedPowellSingular,
+        'brown_almost_linear': BrownAlmostLinear,
+        'penalty': Penalty,
+        'trigonometric': Trigonometric,
+        'extended_rosenbrock': ExtendedRosenbrock,
+        'example': Example
     }
 
-    total_iter, x_k = methods[args.opt_method](start_point=question.x_0,
-                                                func=question.func,
-                                                grad=question.grad,
-                                                hessian=question.hessian,
-                                                x_star=question.x_star,
-                                                f_minimun=question.f_minimun,
-                                                max_iters=args.max_iters,
-                                                epsilon=args.eps,
-                                                rho=args.rho,
-                                                sigma=args.sigma,
-                                                method=args.stepsize_method +
-                                                args.criterion_method + args.opt_method,
-                                                logger=logger)
-    else:
-        raise NotImplementedError("Optimization method is not implemented.")
+    question = questions[args.func_name](m=args.m)
+
+    start_time = time.process_time()
+
+    total_iter, x_k = methods[args.opt_method](
+        start_point=question.x_0,
+        func=question.func,
+        grad=question.grad,
+        hessian=question.hessian,
+        x_star=question.x_star,
+        f_minimun=question.f_minimun,
+        max_iters=args.max_iters,
+        epsilon=args.eps,
+        rho=args.rho,
+        sigma=args.sigma,
+        method=args.stepsize_method + args.criterion_method + args.opt_method,
+        logger=logger)
 
     end_time = time.process_time()
     logger.info("***** Final Results *****")
