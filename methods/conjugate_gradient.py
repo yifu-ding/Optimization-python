@@ -58,6 +58,14 @@ def ConjugateGradient(start_point,
                                  eps=epsilon,
                                  sigma=sigma,
                                  logger=logger)
+
+        # |f(x_k_1) - f(x_k)| < eps 终止判断
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        if diff < epsilon:
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
+            break
+
         d_k = d_k_1
         x_k = x_k_1
         g_k = g_k_1

@@ -6,7 +6,7 @@ import time
 import argparse
 
 from functions import BrownAndDennis, BrownAlmostLinear, Example, ExtendedPowellSingular, Penalty, Trigonometric, ExtendedRosenbrock
-from methods import InExactLineSearch, NewtonMethod, QuasiNewton, LBFGS, ConjugateGradient
+from methods import InExactLineSearch, NewtonMethod, QuasiNewton, LBFGS, ConjugateGradient, BB
 
 # logger settings
 log_format = '%(asctime)s %(message)s'
@@ -75,7 +75,7 @@ def main():
         'fr': ConjugateGradient,
         'prp': ConjugateGradient,
         'prp+': ConjugateGradient,
-        'bb': ConjugateGradient,
+        'bb': BB,
     }
 
     if args.stepsize_method != "simple":

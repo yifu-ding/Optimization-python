@@ -3,8 +3,17 @@ import numpy as np
 from .get_stepsize import get_alpha
 
 
-def criterion(method, x_k, d_k, func, grad, m_max, rho, eps, sigma, logger):
-    beta = 0.5  # armijo 变体方法步长的初始值
+def criterion(method,
+              x_k,
+              d_k,
+              func,
+              grad,
+              m_max,
+              rho,
+              eps,
+              beta=0.5,
+              sigma=0,
+              logger=None):
     alpha = np.array([0.5], dtype="float32").reshape(-1, 1)
     if "interpolate33" in method:
         alpha = np.array([10., 5.], dtype="float32").reshape(-1, 1)

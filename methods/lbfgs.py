@@ -7,7 +7,7 @@ Y = np.array([])
 
 def getHg(g, hdiag):
     m = S.shape[0]
-    q = np.zeros(m + 1, dtype="float32")
+    q = np.zeros((m + 1, S.shape[1]), dtype="float32")
     q[m] = g
 
     # init rho
@@ -102,5 +102,12 @@ def LBFGS(start_point,
                                  eps=epsilon,
                                  sigma=sigma,
                                  logger=logger)
+
+        # |f(x_k_1) - f(x_k)| < eps 终止判断
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        if diff < epsilon:
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
+            break
 
     return cnt_iter, x_k_1
