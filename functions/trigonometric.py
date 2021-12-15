@@ -40,7 +40,7 @@ class Trigonometric:
 
 
 if __name__ == '__main__':
-    tri = Trigomometric(5)
+    tri = Trigonometric(5)
     print((tri.x_0))
     print(tri.func(tri.x_0))
     print(tri.grad(tri.x_0))
