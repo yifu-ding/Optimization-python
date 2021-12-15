@@ -81,8 +81,8 @@ def LBFGS(start_point,
         H_0 = (s_0.T @ y_0) / (y_0.T @ y_0)
 
         if cnt_iter <= m:
-            S.append(s_0)
-            Y.append(y_0)
+            S = np.append(S, [s_0])
+            Y = np.append(Y, [y_0])
             d_k = -getHg(g_k, H_0)
         else:
             np.delete(S, 0)
