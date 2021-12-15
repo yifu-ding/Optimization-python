@@ -6,7 +6,7 @@ Y = np.array([])
 
 
 def getHg(g, hdiag):
-    k = S.shape[1]
+    m, k = S.shape[0], S.shape[1]
     q = np.zeros(k + 1, dtype="float32")
     q[k] = g
 
