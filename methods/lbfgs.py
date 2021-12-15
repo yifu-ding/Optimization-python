@@ -8,17 +8,17 @@ Y = np.array([])
 def getHg(g, hdiag):
     m = S.shape[0]
     q = np.zeros(m + 1, dtype="float32")
-    q[m] = g
+    q[:m] = g.reshape((m))
 
     # init rho
     rho = np.zeros(m, dtype="float32")
     for i in range(m):
-        rho[i] = 1 / (Y[i].T @ S[i])  # @?
+        rho[i] = 1 / (Y[i] * S[i])  # @?
 
     # loop 1
     alpha = np.zeros_like(S, dtype="float32")
     for i in range(m - 1, -1, -1):
-        alpha[i] = rho[i] * S[i] @ q[i + 1]
+        alpha[i] = rho[i] * S[i] * q[i + 1]
         q[i] = q[i + 1] - alpha[i] * Y[i]
 
     # multi init Hessian
@@ -27,7 +27,7 @@ def getHg(g, hdiag):
     # loop 2
     beta = np.zeros_like(S, dtype="float32")
     for i in range(m):
-        beta[i] = rho[i] * Y[i].T @ r
+        beta[i] = rho[i] * Y[i] * r
         r += S[i] * (alpha[i] - beta[i])
 
     return r
