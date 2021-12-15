@@ -2,7 +2,7 @@
 import numpy as np
 
 
-class Trigomometric:
+class Trigonometric:
     def __init__(self, n):
         self.f_minimun = 0
         self.x_0 = np.array([1. / n for i in range(n)]).reshape(-1, 1)
