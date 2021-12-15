@@ -6,13 +6,13 @@ Y = np.array([])
 
 
 def getHg(g, hdiag):
-    m, k = S.shape[0], S.shape[1]
-    q = np.zeros(k + 1, dtype="float32")
-    q[k] = g
+    m = S.shape[0]
+    q = np.zeros(m + 1, dtype="float32")
+    q[m] = g
 
     # init rho
-    rho = np.zeros(k, dtype="float32")
-    for i in range(k):
+    rho = np.zeros(m, dtype="float32")
+    for i in range(m):
         rho[i] = 1 / (Y[i].T @ S[i])  # @?
 
     # loop 1
