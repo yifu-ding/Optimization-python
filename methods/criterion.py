@@ -21,7 +21,8 @@ def criterion(method,
 
     f_k = func(x_k)
     g_k = grad(x_k)
-    g_k_l2norm = np.linalg.norm(g_k, ord=2)
+
+    g_k_l2norm = np.sqrt(g_k.T @ g_k)
     if g_k_l2norm < eps:
         # logger.info("g_k L2 < eps, 终止迭代")
         return alpha, x_k
@@ -29,19 +30,24 @@ def criterion(method,
     gk1_dk = np.dot(grad(x_k + alpha[0] * d_k).T, d_k)
 
     for _ in range(int(m_max)):
-        alpha = get_alpha(x_k=x_k,
-                          d_k=d_k,
-                          alpha=alpha,
-                          beta=beta,
-                          func=func,
-                          grad=grad,
-                          m=_,
-                          method=method)
+        alpha_t = get_alpha(x_k=x_k,
+                            d_k=d_k,
+                            alpha=alpha,
+                            beta=beta,
+                            func=func,
+                            grad=grad,
+                            m=_,
+                            method=method)
+        if alpha == alpha_t:
+            alpha = alpha_t
+            logger.info("步长不改变，停止循环")
+            break
+        alpha = alpha_t
 
-        alpha_l2norm = np.linalg.norm(alpha, ord=2)
-        # logger.info("alpha=" + str(alpha))
+        # print("步长=" + str(alpha))
+        alpha_abs = np.abs(alpha[0])
 
-        if alpha_l2norm < eps:
+        if alpha_abs < eps:
             alpha = np.array([0.1 * beta], dtype="float32").reshape(-1,
                                                                     1)  # init
             logger.info("步长太小 重新选取 alpha=" + str(alpha))

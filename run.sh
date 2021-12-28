@@ -1,11 +1,11 @@
 python3 main.py \
-	--func_name "extended_rosenbrock" \
-	--stepsize_method "simple" \
+	--func_name "penalty" \
+	--stepsize_method "interpolate22" \
 	--criterion_method "armijo" \
-	--opt_method "sr1" \
+	--opt_method "lbfgs" \
 	--max_iters 1e3 \
 	--rho 1e-4 \
 	--sigma 0.9 \
-	--eps 1e-8 \
+	--eps 1e-6 \
 	--m 4 \
 	--beta 1.1
