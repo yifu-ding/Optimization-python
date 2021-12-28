@@ -128,7 +128,7 @@ def main():
     diff = np.fabs(question.func(x_k) - question.f_minimun)
     logger.info("   |f(xk) - f(x*)|: " + str(diff))
     g_k_l2norm = np.sqrt(g_k.T @ g_k)
-    logger.info("   ||g_k||: " + str(g_k_l2norm))
+    logger.info("   ||g_k||: " + str(g_k_l2norm[0][0]))
     logger.info("   CPU时间（ms）: " + str((end_time - start_time)))
 
 
