@@ -101,7 +101,7 @@ def main():
 
     start_time = time.process_time()
 
-    total_iter, x_k = methods[args.opt_method](
+    total_iter, x_k, g_k = methods[args.opt_method](
         start_point=question.x_0,
         func=question.func,
         grad=question.grad,
@@ -120,13 +120,15 @@ def main():
     logger.info("***** Final Results *****")
     logger.info("   迭代次数(ite): " + str(total_iter))
     logger.info("   函数调用次数(feva): " + str(question.call_f))
-    logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)) + ", 函数值:" +
+    logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)) + ", 函数值: " +
                 str(question.func(x_k)))
     logger.info("   最优函数值: " + str(question.f_minimun))
     if question.f_minimun == None:
         question.f_minimun = 0.
     diff = np.fabs(question.func(x_k) - question.f_minimun)
-    logger.info("   ||f(xk) - f(x*)||: " + str(diff))
+    logger.info("   |f(xk) - f(x*)|: " + str(diff))
+    g_k_l2norm = np.sqrt(g_k.T @ g_k)
+    logger.info("   ||g_k||: " + str(g_k_l2norm))
     logger.info("   CPU时间（ms）: " + str((end_time - start_time)))
 
 

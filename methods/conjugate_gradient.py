@@ -91,4 +91,4 @@ def ConjugateGradient(start_point,
         #                 str(np.fabs(func(x_k_1) - func(x_k))))
         #     break
 
-    return cnt_iter, x_k
+    return cnt_iter, x_k, g_k

@@ -152,4 +152,4 @@ def LBFGS(start_point,
         #                 str(np.fabs(func(x_k_1) - func(x_k))))
         #     break
 
-    return cnt_iter, x_k_1
+    return cnt_iter, x_k_1, g_k

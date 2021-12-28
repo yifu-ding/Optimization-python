@@ -77,4 +77,4 @@ def BB(start_point,
         x_k = x_k_1
         g_k = g_k_1
 
-    return cnt_iter, x_k
+    return cnt_iter, x_k, g_k
