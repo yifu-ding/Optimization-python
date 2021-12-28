@@ -84,7 +84,8 @@ def LBFGS(start_point,
 
         g_k_l2norm = np.sqrt(g_k.T @ g_k)
         if g_k_l2norm < epsilon:
-            logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < eps, 终止迭代")
+            logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < " + str(epsilon) +
+                        ", 终止迭代")
             break
 
         if cnt_iter == 0:

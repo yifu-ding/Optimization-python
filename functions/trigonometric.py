@@ -1,10 +1,12 @@
 # coding=UTF-8
 import numpy as np
 
+# 26
+
 
 class Trigonometric:
     def __init__(self, m):
-        self.n = self.m = m
+        n = self.n = self.m = m
         self.f_minimun = 0
         self.x_0 = np.array([1. / n for i in range(n)]).reshape(-1, 1)
         self.x_star = None
@@ -38,6 +40,10 @@ class Trigonometric:
                     gi[j][i] = (1 + i) * np.sin(x[i]) - np.cos(x[i])
                 else:
                     gi[j][i] = np.sin(x[j])
+
+        sum_cos = 0.
+        for i in range(n):
+            sum_cos += np.cos(x[i])
 
         fi = np.zeros(self.m, dtype="float32")
         for i in range(self.m):
