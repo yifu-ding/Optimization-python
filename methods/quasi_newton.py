@@ -12,7 +12,7 @@ def QuasiNewton(start_point,
                 max_iters=1e3,
                 epsilon=1e-8,
                 rho=1e-4,
-                beta=0.5,
+                init_alpha=0.5,
                 sigma=0.9,
                 method="sr1 wolfe interpolate22",
                 logger=None):
@@ -38,7 +38,7 @@ def QuasiNewton(start_point,
                                  m_max=20,
                                  rho=rho,
                                  eps=epsilon,
-                                 beta=beta,
+                                 init_alpha=init_alpha,
                                  sigma=sigma,
                                  logger=logger)
 

@@ -13,7 +13,7 @@ def ConjugateGradient(start_point,
                       epsilon=1e-8,
                       rho=1e-4,
                       sigma=0.9,
-                      beta=0.5,
+                      init_alpha=0.5,
                       method="newton strong_wolfe simple",
                       logger=None):
 
@@ -24,52 +24,71 @@ def ConjugateGradient(start_point,
     for cnt_iter in range(int(max_iters)):
         # logger.info("iter " + str(cnt_iter))
 
-        g_k_1 = grad(x_k).reshape(-1, 1)
-        # ||g|| < eps 终止判断
-        g_l2_norm = np.linalg.norm(g_k_1, ord=2)
-        if g_l2_norm < epsilon:
-            logger.info("g_l2_norm=" + str(g_l2_norm) + " < eps, 终止迭代")
+        g_k = grad(x_k).reshape(-1, 1)
+
+        # ||g||_2 < eps 终止判断
+        g_k_l2norm = np.sqrt(g_k.T @ g_k)
+        if g_k_l2norm < epsilon:
+            logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < " +
+                        str(epsilon) + ", 终止迭代")
             break
 
         if cnt_iter == 0:
-            d_k_1 = -g_k_1
+            d_k = -g_k
+
+        gk_dk = g_k.T @ d_k
+
+        if gk_dk > 0:
+            d_k = -d_k / np.sqrt(d_k.T @ d_k)
         else:
-            if 'fr' in method:
-                beta = (g_k_1.T @ g_k_1) / (g_k.T @ g_k)
+            d_k = d_k / np.sqrt(d_k.T @ d_k)
+
+        alpha, x_k = criterion(method=method,
+                               x_k=x_k,
+                               d_k=d_k,
+                               func=func,
+                               grad=grad,
+                               m_max=20,
+                               rho=rho,
+                               eps=epsilon,
+                               init_alpha=init_alpha,
+                               sigma=sigma,
+                               logger=logger)
+
+        # if cnt_iter > 0:
+        if cnt_iter > 0:
+            if 'fr-prp' in method:
+                beta_fr = (g_k.T @ g_k) / (g_k_1.T @ g_k_1)
+                beta_prp = (g_k.T @ (g_k - g_k)) / (g_k_1.T @ g_k_1)
+                if np.abs(beta_prp) < beta_fr:
+                    beta = beta_prp
+                elif beta_prp < -beta_fr:
+                    beta = -beta_fr
+                elif beta_prp > beta_fr:
+                    beta = beta_fr
+                else:
+                    raise RuntimeError("unknown error at ConjugateGradient()")
+            elif 'fr' in method:
+                beta = (g_k.T @ g_k) / (g_k_1.T @ g_k_1)
             elif 'prp' in method:
-                beta = (g_k_1.T @ (g_k_1 - g_k)) / (g_k.T @ g_k)
+                beta = (g_k.T @ (g_k - g_k_1)) / (g_k_1.T @ g_k_1)
                 if 'prp+' in method:
                     beta = max(beta, 0)
-            elif 'cd' in method:
-                beta = -(g_k_1.T @ g_k_1) / (d_k.T @ g_k)
-            elif 'dy' in method:
-                beta = (g_k_1.T @ g_k_1) / (d_k.T @ (g_k_1 - g_k))
+            # elif 'cd' in method:
+            #     beta = -(g_k.T @ g_k) / (d_k_1.T @ g_k_1)
+            # elif 'dy' in method:
+            #     beta = (g_k.T @ g_k) / (d_k_1.T @ (g_k - g_k_1))
 
-            d_k_1 = -g_k + beta * d_k
-            if (g_k.T @ d_k_1) >= 0.0:
-                d_k_1 = -g_k
-
-        alpha, x_k_1 = criterion(method=method,
-                                 x_k=x_k,
-                                 d_k=d_k_1,
-                                 func=func,
-                                 grad=grad,
-                                 m_max=20,
-                                 rho=rho,
-                                 eps=epsilon,
-                                 beta=beta,
-                                 sigma=sigma,
-                                 logger=logger)
+        d_k_1 = d_k
+        x_k_1 = x_k
+        g_k_1 = g_k
+        d_k = -g_k + beta * d_k
 
         # |f(x_k_1) - f(x_k)| < eps 终止判断
-        diff = np.fabs(func(x_k_1) - func(x_k))
-        if diff < epsilon:
-            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-                        str(np.fabs(func(x_k_1) - func(x_k))))
-            break
-
-        d_k = d_k_1
-        x_k = x_k_1
-        g_k = g_k_1
+        # diff = np.fabs(func(x_k_1) - func(x_k))
+        # if diff < epsilon:
+        #     logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+        #                 str(np.fabs(func(x_k_1) - func(x_k))))
+        #     break
 
     return cnt_iter, x_k

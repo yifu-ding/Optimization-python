@@ -46,7 +46,7 @@ def main():
                         choices=[
                             'inexact', 'newton', 'damped', 'hybrid', 'lm',
                             'sr1', 'bfgs', 'dfp', 'lbfgs', 'fr', 'prp', 'prp+',
-                            'bb'
+                            'bb', 'fr-prp'
                         ])
     parser.add_argument("--max_iters",
                         default=1e3,
@@ -54,7 +54,7 @@ def main():
                         help="Maximum iteration numbers.")
     parser.add_argument("--rho", type=float, default=1e-4)
     parser.add_argument("--sigma", type=float, default=0.9)
-    parser.add_argument("--beta", type=float, default=0.5)
+    parser.add_argument("--init_alpha", type=float, default=0.5)
     parser.add_argument("--eps",
                         default=1e-8,
                         type=float,
@@ -76,10 +76,11 @@ def main():
         'fr': ConjugateGradient,
         'prp': ConjugateGradient,
         'prp+': ConjugateGradient,
+        'fr-prp': ConjugateGradient,
         'bb': BB,
     }
 
-    if args.stepsize_method != "simple":
+    if args.stepsize_method != "simple" and args.stepsize_method != "interpolate22":
         logger.warning(
             "Unstable behavior due to unknown bug, please dont use it.")
 
@@ -106,7 +107,7 @@ def main():
         f_minimun=question.f_minimun,
         max_iters=args.max_iters,
         epsilon=args.eps,
-        beta=args.beta,
+        init_alpha=args.init_alpha,
         rho=args.rho,
         sigma=args.sigma,
         method=args.stepsize_method + args.criterion_method + args.opt_method,

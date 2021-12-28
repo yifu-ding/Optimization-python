@@ -55,9 +55,16 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
     return np.array([alpha_2, alpha_1], dtype="float32").reshape(-1, 1)
 
 
-def get_alpha(x_k, d_k, alpha, beta, func, grad, m, method="simple armijo"):
-    if "simple" in method:  # armijo 的变体 beta**m
-        return np.array([beta**(m + 1)], dtype="float32").reshape(-1, 1)
+def get_alpha(x_k,
+              d_k,
+              alpha,
+              init_alpha,
+              func,
+              grad,
+              m,
+              method="simple armijo"):
+    if "simple" in method:  # armijo 的变体 init_alpha**m
+        return np.array([init_alpha**(m + 1)], dtype="float32").reshape(-1, 1)
 
     g_k = grad(x_k)
     if "interpolate22" in method:

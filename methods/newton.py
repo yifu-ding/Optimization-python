@@ -13,7 +13,7 @@ def NewtonMethod(start_point,
                  epsilon=1e-8,
                  rho=1e-4,
                  sigma=0.9,
-                 beta=0.5,
+                 init_alpha=0.5,
                  method="newton strong_wolfe simple",
                  logger=None):
 
@@ -45,7 +45,7 @@ def NewtonMethod(start_point,
                                      m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
-                                     beta=beta,
+                                     init_alpha=init_alpha,
                                      sigma=sigma,
                                      logger=logger)
         elif "hybrid" in method:  # 混合 Newton 方法
@@ -66,7 +66,7 @@ def NewtonMethod(start_point,
                                      m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
-                                     beta=beta,
+                                     init_alpha=init_alpha,
                                      sigma=sigma,
                                      logger=logger)
 
@@ -85,7 +85,7 @@ def NewtonMethod(start_point,
                                      m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
-                                     beta=beta,
+                                     init_alpha=init_alpha,
                                      sigma=sigma,
                                      logger=logger)
 

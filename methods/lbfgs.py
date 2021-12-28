@@ -61,7 +61,7 @@ def LBFGS(start_point,
           max_iters=1e3,
           epsilon=1e-8,
           rho=1e-4,
-          beta=0.5,
+          init_alpha=0.5,
           sigma=0.9,
           method="newton strong_wolfe simple",
           logger=None):
@@ -84,8 +84,8 @@ def LBFGS(start_point,
 
         g_k_l2norm = np.sqrt(g_k.T @ g_k)
         if g_k_l2norm < epsilon:
-            logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < " + str(epsilon) +
-                        ", 终止迭代")
+            logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < " +
+                        str(epsilon) + ", 终止迭代")
             break
 
         if cnt_iter == 0:
@@ -98,7 +98,7 @@ def LBFGS(start_point,
                                      m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
-                                     beta=beta,
+                                     init_alpha=init_alpha,
                                      sigma=sigma,
                                      logger=logger)
             # d_k = -alpha * g_k
@@ -106,7 +106,7 @@ def LBFGS(start_point,
             alpha_abs = np.abs(alpha[0])
 
             if alpha_abs < epsilon:
-                alpha = np.array([0.1 * beta],
+                alpha = np.array([0.1 * init_alpha],
                                  dtype="float32").reshape(-1, 1)  # init
                 logger.info("步长太小 重新选取 alpha=" + str(alpha))
                 break
@@ -140,7 +140,7 @@ def LBFGS(start_point,
                                  m_max=m_max,
                                  rho=rho,
                                  eps=epsilon,
-                                 beta=beta,
+                                 init_alpha=init_alpha,
                                  sigma=sigma,
                                  logger=logger)
         # print("步长=" + str(alpha))

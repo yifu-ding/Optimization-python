@@ -5,7 +5,7 @@ import numpy as np
 
 class ExtendedRosenbrock:
     def __init__(self, m):
-        n = m
+        n = self.m = self.n = m
         x_0 = []
         for i in range(n // 2):
             x_0.append(-1.2)
@@ -18,11 +18,18 @@ class ExtendedRosenbrock:
     def func(self, x):
         self.call_f += 1
         n = x.shape[0]
-        f = 0.
-        for i in range(1, (n // 2) + 1):
-            f_1 = 10. * (x[2 * i - 1] - x[i - 2]**2)
-            f_2 = 1. - x[2 * i - 2]
-            f = f + f_1**2 + f_2**2
+        fi = np.zeros(self.m, dtype="float32")
+        fi[0] = 10 * x[1]
+        fi[1] = 1 - x[0]
+        for i in range(2, (n // 2) + 1):
+            fi[2 * i - 2] = 10 * (x[2 * i - 1] - x[i - 2]**2)
+            fi[2 * i - 1] = 1 - x[2 * i - 2]
+        f = np.sum(fi.T @ fi)
+        # f = 0.
+        # for i in range(1, (n // 2) + 1):
+        #     f_1 = 10. * (x[2 * i - 1] - x[i - 2]**2)
+        #     f_2 = 1. - x[2 * i - 2]
+        #     f = f + f_1**2 + f_2**2
         # r = np.zeros(n)
         # for i in range(1, n // 2 + 1):
         #     r[i] = 1.0 - x[2 * i - 2]
@@ -34,17 +41,34 @@ class ExtendedRosenbrock:
     def grad(self, x):
         self.call_f += 1
         n = x.shape[0]
-        g = np.zeros(n, dtype="float32")
-        r = np.zeros(n)
-        for i in range(1, n // 2 + 1):
-            r[i] = 1.0 - x[2 * i - 2]
-            r[i + 1] = 10.0 * (x[2 * i - 1] - x[i - 1]**2)
-            # f = f + r[i]**2 + r[i + 1]**2
-        # print(r)
-        for i in range(1, n // 2 + 1):
-            g[2 * i - 2] += -1 * 2 * r[i]
-            g[2 * i - 1] += 10 * 2 * r[i + 1]
-            g[i - 1] += 10 * (-2) * (x[i - 1]) * r[i + 1]
+        fi = np.zeros(self.m, dtype="float32")
+        gi = np.zeros((self.n, self.m), dtype="float32")
+        g = np.zeros(self.n, dtype="float32").reshape(-1, 1)
+
+        fi[0] = 10 * x[1]
+        fi[1] = 1 - x[0]
+        gi[1][0] = 10
+        gi[0][1] = -1
+        for i in range(2, (n // 2) + 1):
+            fi[2 * i - 2] = 10 * (x[2 * i - 1] - x[i - 2]**2)
+            fi[2 * i - 1] = 1 - x[2 * i - 2]
+            gi[2 * i - 1][2 * i - 2] = 10
+            gi[i - 2][2 * i - 2] = -20 * x[i - 2]
+            gi[2 * i - 2][2 * i - 1] = -1
+
+        for i in range(n):
+            g[i] = np.sum(2 * gi[i].T @ fi)
+        # g = np.zeros(n, dtype="float32")
+        # r = np.zeros(n)
+        # for i in range(1, n // 2 + 1):
+        #     r[i] = 1.0 - x[2 * i - 2]
+        #     r[i + 1] = 10.0 * (x[2 * i - 1] - x[i - 1]**2)
+        #     # f = f + r[i]**2 + r[i + 1]**2
+        # # print(r)
+        # for i in range(1, n // 2 + 1):
+        #     g[2 * i - 2] += -1 * 2 * r[i]
+        #     g[2 * i - 1] += 10 * 2 * r[i + 1]
+        #     g[i - 1] += 10 * (-2) * (x[i - 1]) * r[i + 1]
         # for i in range(1, (n // 2) + 1):
         #     f_1 = 10. * (x[2 * i - 1] - x[i - 2]**2)
         #     f_2 = 1. - x[2 * i - 2]
@@ -52,7 +76,7 @@ class ExtendedRosenbrock:
         #     g[i - 2] += 2 * f_1 * (-20 * x[i - 2])
         #     g[2 * i - 2] += 2 * f_2 * (-1)
         # g = np.delete(g, 0)
-        # print(g)
+
         return g
 
     def hessian(self, x):
