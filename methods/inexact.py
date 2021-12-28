@@ -13,6 +13,7 @@ def InExactLineSearch(start_point,
                       epsilon=1e-8,
                       rho=1e-4,
                       sigma=0.9,
+                      beta=0.5,
                       method=None,
                       logger=None):
 
@@ -34,6 +35,7 @@ def InExactLineSearch(start_point,
                                  m_max=20,
                                  rho=rho,
                                  eps=epsilon,
+                                 beta=beta,
                                  sigma=sigma,
                                  logger=logger)
 

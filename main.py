@@ -54,6 +54,7 @@ def main():
                         help="Maximum iteration numbers.")
     parser.add_argument("--rho", type=float, default=1e-4)
     parser.add_argument("--sigma", type=float, default=0.9)
+    parser.add_argument("--beta", type=float, default=0.5)
     parser.add_argument("--eps",
                         default=1e-8,
                         type=float,
@@ -105,6 +106,7 @@ def main():
         f_minimun=question.f_minimun,
         max_iters=args.max_iters,
         epsilon=args.eps,
+        beta=args.beta,
         rho=args.rho,
         sigma=args.sigma,
         method=args.stepsize_method + args.criterion_method + args.opt_method,

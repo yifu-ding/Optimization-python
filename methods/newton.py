@@ -13,10 +13,11 @@ def NewtonMethod(start_point,
                  epsilon=1e-8,
                  rho=1e-4,
                  sigma=0.9,
+                 beta=0.5,
                  method="newton strong_wolfe simple",
                  logger=None):
 
-    x_k, loss = start_point, []
+    x_k, loss, m_max = start_point, [], 50
 
     for cnt_iter in range(int(max_iters)):
         # logger.info("iter " + str(cnt_iter))
@@ -41,9 +42,10 @@ def NewtonMethod(start_point,
                                      d_k=d_k,
                                      func=func,
                                      grad=grad,
-                                     m_max=20,
+                                     m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
+                                     beta=beta,
                                      sigma=sigma,
                                      logger=logger)
         elif "hybrid" in method:  # 混合 Newton 方法
@@ -61,9 +63,10 @@ def NewtonMethod(start_point,
                                      d_k=d_k,
                                      func=func,
                                      grad=grad,
-                                     m_max=20,
+                                     m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
+                                     beta=beta,
                                      sigma=sigma,
                                      logger=logger)
 
@@ -79,9 +82,10 @@ def NewtonMethod(start_point,
                                      d_k=d_k,
                                      func=func,
                                      grad=grad,
-                                     m_max=20,
+                                     m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
+                                     beta=beta,
                                      sigma=sigma,
                                      logger=logger)
 

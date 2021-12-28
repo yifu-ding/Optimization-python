@@ -1,10 +1,11 @@
 python3 main.py \
-	--func_name "brown_almost_linear" \
+	--func_name "extended_rosenbrock" \
 	--stepsize_method "simple" \
-	--criterion_method "strong_wolfe" \
-	--opt_method "dfp" \
+	--criterion_method "armijo" \
+	--opt_method "sr1" \
 	--max_iters 1e3 \
 	--rho 1e-4 \
 	--sigma 0.9 \
 	--eps 1e-8 \
-	--m 60
+	--m 4 \
+	--beta 1.1

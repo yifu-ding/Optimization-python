@@ -7,7 +7,11 @@ def interpolate22(func, x_k, g_k, d_k, alpha):
     f_k = func(x_k)  # phi(0)
     f_k_1 = func(x_k + alpha * d_k)  # phi(alpha_0)
     gk_dk = np.dot(g_k.T, d_k)  # phi'(0)
-    alpha = -(gk_dk * alpha**2) / (2 * (f_k_1 - f_k - gk_dk * alpha))
+    # import pdb
+    # pdb.set_trace()
+    alpha_t = -(gk_dk * alpha**2) / (2 * (f_k_1 - f_k - gk_dk * alpha))
+    # print("alpha_t=" + str(alpha_t))
+    alpha = 0.1 * alpha if 0.1 * alpha > alpha_t else alpha_t
     return alpha
 
 
@@ -53,7 +57,7 @@ def interpolate33(func, x_k, g_k, d_k, alpha_0, alpha_1):
 
 def get_alpha(x_k, d_k, alpha, beta, func, grad, m, method="simple armijo"):
     if "simple" in method:  # armijo 的变体 beta**m
-        return np.array([beta**m], dtype="float32").reshape(-1, 1)
+        return np.array([beta**(m + 1)], dtype="float32").reshape(-1, 1)
 
     g_k = grad(x_k)
     if "interpolate22" in method:

@@ -5,9 +5,11 @@ import numpy as np
 class BrownAlmostLinear:
     def __init__(self, m):
         n = m
-        self.x_0 = np.array([0.5 for i in range(m)]).reshape(-1, 1)
+        # self.x_0 = np.array([0.5 for i in range(m)]).reshape(-1, 1)
+        self.x_0 = np.array([10e-3
+                             for i in range(m - 1)] + [10]).reshape(-1, 1)
         self.f_minimun_0 = 0.
-        self.x_minimun_0 = np.ones_like(self.x_0)
+        self.x_star_0 = np.ones_like(self.x_0)
 
         self.f_minimun = 1.
         self.x_star = np.array([0. for i in range(n - 1)] + [n + 1])

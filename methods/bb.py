@@ -12,12 +12,12 @@ def BB(start_point,
        max_iters=1e3,
        epsilon=1e-8,
        rho=1e-4,
-       sigma=0.9,
+       sigma=0.4,
        method="newton strong_wolfe simple",
        logger=None):
 
     x_k, loss, M = start_point, [], 5
-    alpha, delta, sigma = 1, 1, 0.4
+    alpha, delta = 1, 1
     f_arr = np.ones(M, dtype="float32") * float('-inf')
 
     if x_star is not None:

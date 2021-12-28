@@ -12,6 +12,7 @@ def QuasiNewton(start_point,
                 max_iters=1e3,
                 epsilon=1e-8,
                 rho=1e-4,
+                beta=0.5,
                 sigma=0.9,
                 method="sr1 wolfe interpolate22",
                 logger=None):
@@ -37,6 +38,7 @@ def QuasiNewton(start_point,
                                  m_max=20,
                                  rho=rho,
                                  eps=epsilon,
+                                 beta=beta,
                                  sigma=sigma,
                                  logger=logger)
 
@@ -48,7 +50,7 @@ def QuasiNewton(start_point,
             break
 
         s = x_k_1 - x_k
-        y = grad(x_k_1) - g_k
+        y = grad(x_k_1).reshape(-1, 1) - g_k
         if "sr1" in method:
             tmp = s - np.dot(H, y)
             H = H + np.dot(tmp, tmp.T) / np.dot(tmp.T, y)
@@ -58,6 +60,8 @@ def QuasiNewton(start_point,
         elif "bfgs" in method:
             h1 = 1 + np.dot(np.dot(y.T, H), y) / np.dot(y.T, s)
             h2 = np.dot(s, s.T) / np.dot(y.T, s)
+            # import pdb
+            # pdb.set_trace()
             h3 = np.dot(np.dot(s, y.T), H) + np.dot(np.dot(H, y), s.T)
             H = H + h1 * h2 - h3 / np.dot(y.T, s)
         else:

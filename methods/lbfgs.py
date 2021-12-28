@@ -42,6 +42,7 @@ def LBFGS(start_point,
           max_iters=1e3,
           epsilon=1e-8,
           rho=1e-4,
+          beta=0.5,
           sigma=0.9,
           method="newton strong_wolfe simple",
           logger=None):
@@ -51,7 +52,8 @@ def LBFGS(start_point,
 
     M = 5  # 10, 15
 
-    x_k, loss, H = start_point, [], np.eye(len(start_point))
+    x_k, loss, H, m_max = start_point, [], np.eye(len(start_point)), 50
+
     if x_star is not None:
         f_minimun = func(x_star)
 
@@ -70,9 +72,10 @@ def LBFGS(start_point,
                                      d_k=d_k,
                                      func=func,
                                      grad=grad,
-                                     m_max=20,
+                                     m_max=m_max,
                                      rho=rho,
                                      eps=epsilon,
+                                     beta=beta,
                                      sigma=sigma,
                                      logger=logger)
             # d_k = -alpha * g_k
@@ -98,9 +101,10 @@ def LBFGS(start_point,
                                  d_k=d_k,
                                  func=func,
                                  grad=grad,
-                                 m_max=20,
+                                 m_max=m_max,
                                  rho=rho,
                                  eps=epsilon,
+                                 beta=beta,
                                  sigma=sigma,
                                  logger=logger)
 

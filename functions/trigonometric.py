@@ -3,7 +3,8 @@ import numpy as np
 
 
 class Trigonometric:
-    def __init__(self, n):
+    def __init__(self, m):
+        n = m
         self.f_minimun = 0
         self.x_0 = np.array([1. / n for i in range(n)]).reshape(-1, 1)
         self.x_star = None

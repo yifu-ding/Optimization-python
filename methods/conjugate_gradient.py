@@ -13,6 +13,7 @@ def ConjugateGradient(start_point,
                       epsilon=1e-8,
                       rho=1e-4,
                       sigma=0.9,
+                      beta=0.5,
                       method="newton strong_wolfe simple",
                       logger=None):
 
@@ -56,6 +57,7 @@ def ConjugateGradient(start_point,
                                  m_max=20,
                                  rho=rho,
                                  eps=epsilon,
+                                 beta=beta,
                                  sigma=sigma,
                                  logger=logger)
 
