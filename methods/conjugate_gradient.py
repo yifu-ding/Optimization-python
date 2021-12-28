@@ -74,10 +74,10 @@ def ConjugateGradient(start_point,
                 beta = (g_k.T @ (g_k - g_k_1)) / (g_k_1.T @ g_k_1)
                 if 'prp+' in method:
                     beta = max(beta, 0)
-            # elif 'cd' in method:
-            #     beta = -(g_k.T @ g_k) / (d_k_1.T @ g_k_1)
-            # elif 'dy' in method:
-            #     beta = (g_k.T @ g_k) / (d_k_1.T @ (g_k - g_k_1))
+            elif 'cd' in method:
+                beta = -(g_k.T @ g_k) / (d_k_1.T @ g_k_1)
+            elif 'dy' in method:
+                beta = (g_k.T @ g_k) / (d_k_1.T @ (g_k - g_k_1))
 
         d_k_1 = d_k
         x_k_1 = x_k

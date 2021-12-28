@@ -46,7 +46,7 @@ def main():
                         choices=[
                             'inexact', 'newton', 'damped', 'hybrid', 'lm',
                             'sr1', 'bfgs', 'dfp', 'lbfgs', 'fr', 'prp', 'prp+',
-                            'bb', 'fr-prp'
+                            'bb', 'fr-prp', 'cd', 'dy'
                         ])
     parser.add_argument("--max_iters",
                         default=1e3,
@@ -62,6 +62,7 @@ def main():
     parser.add_argument("--m", default=20, type=int)
 
     args = parser.parse_args()
+    print(args)
 
     methods = {
         'inexact': InExactLineSearch,
@@ -77,6 +78,8 @@ def main():
         'prp': ConjugateGradient,
         'prp+': ConjugateGradient,
         'fr-prp': ConjugateGradient,
+        'cd': ConjugateGradient,
+        'dy': ConjugateGradient,
         'bb': BB,
     }
 
@@ -120,6 +123,10 @@ def main():
     logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)) + ", 函数值:" +
                 str(question.func(x_k)))
     logger.info("   最优函数值: " + str(question.f_minimun))
+    if question.f_minimun == None:
+        question.f_minimun = 0.
+    diff = np.fabs(question.func(x_k) - question.f_minimun)
+    logger.info("   ||f(xk) - f(x*)||: " + str(diff))
     logger.info("   CPU时间（ms）: " + str((end_time - start_time)))
 
 

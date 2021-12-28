@@ -40,14 +40,14 @@ def criterion(method,
                             method=method)
         if alpha == alpha_t:
             alpha = alpha_t
-            logger.info("步长不改变，停止循环")
+            # logger.info("步长不改变，停止循环")
             break
         alpha = alpha_t
 
         # print("步长=" + str(alpha))
         alpha_abs = np.abs(alpha[0])
         if alpha_abs < eps:
-            logger.info("步长太小 alpha=" + str(alpha))
+            # logger.info("步长太小 alpha=" + str(alpha))
             alpha = np.array([0.1 * init_alpha],
                              dtype="float32").reshape(-1, 1)  # init
             break
@@ -77,9 +77,9 @@ def criterion(method,
         if satisfy:
             # logger.info("在第" + str(_) + "次迭代，步长满足准则")
             break
-    if _ == m_max - 1:
-        # raise RuntimeError("步长 alpha=" + str(alpha) + "未满足准则，但达到迭代次数")
-        logger.info("步长 alpha=" + str(alpha) + "未满足准则，但达到迭代次数")
+    # if _ == m_max - 1:
+    #     # raise RuntimeError("步长 alpha=" + str(alpha) + "未满足准则，但达到迭代次数")
+    #     logger.info("步长 alpha=" + str(alpha) + "未满足准则，但达到迭代次数")
 
     x_k_1 = x_k + alpha[0] * d_k
     return alpha, x_k_1

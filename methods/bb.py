@@ -18,7 +18,7 @@ def BB(start_point,
        logger=None):
 
     x_k, loss, M = start_point, [], 5
-    alpha, delta, gamma = 1, 1, 1e-4
+    alpha, delta, gamma, sigma = 1, 1, 1e-4, 0.4
     f_arr = np.ones(M, dtype="float32") * float('-inf')
 
     if x_star is not None:
@@ -52,7 +52,7 @@ def BB(start_point,
         lambd = 1 / alpha
 
         # nonmonotone line search
-        for _ in range(5):  # this loop can be enlarged
+        for _ in range(10):  # this loop can be enlarged
             if func(x_k - lambd * g_k) < (max(f_arr) -
                                           gamma * lambd * g_k.T @ g_k):
                 break
