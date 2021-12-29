@@ -13,7 +13,7 @@ def getHg(g, hdiag):
     # init rho
     rho = np.zeros(m, dtype="float32")
     for i in range(m):
-        rho[i] = 1 / (S[i].T @ Y[i])  # @?
+        rho[i] = 1 / (S[i].T @ Y[i])
 
     # loop 1
     alpha = np.zeros_like(S, dtype="float32")
@@ -30,26 +30,6 @@ def getHg(g, hdiag):
         beta[i] = rho[i] * Y[i].T @ r
         r += S[i] * (alpha[i] - beta[i])
     return r
-
-    # version 2
-    # m = len(S)
-    # alpha = np.zeros_like(S, dtype="float32")
-
-    # # init rho
-    # rho = np.zeros(m, dtype="float32")
-    # for i in range(m):
-    #     rho[i] = 1. / (S[i].T @ Y[i])  # @?
-
-    # q = g
-    # for i in range(m - 1, -1, -1):
-    #     alpha[i] = np.dot(Y[i].T, q) * rho[i]
-    #     q += (-alpha[i] * S[i])
-
-    # r = q * hdiag
-    # for i in range(m):
-    #     beta = np.dot(S[i].T, r) * rho[i]
-    #     r += (alpha[i] - beta) * Y[i]
-    # return r
 
 
 def LBFGS(start_point,
@@ -78,10 +58,8 @@ def LBFGS(start_point,
 
     for cnt_iter in range(int(max_iters)):
         g_k = grad(x_k).reshape(-1, 1)
-        # logger.info("x_k=" + str(x_k))
-        # ||g|| < eps 终止判断
-        # g_l2_norm = np.linalg.norm(g_k, ord=2)
 
+        # ||g|| < eps 终止判断
         g_k_l2norm = np.sqrt(g_k.T @ g_k)
         if g_k_l2norm < epsilon:
             logger.info("g_k_l2norm=" + str(g_k_l2norm) + " < " +
@@ -101,8 +79,6 @@ def LBFGS(start_point,
                                      init_alpha=init_alpha,
                                      sigma=sigma,
                                      logger=logger)
-            # d_k = -alpha * g_k
-            # print("步长=" + str(alpha))
             alpha_abs = np.abs(alpha[0])
 
             if alpha_abs < epsilon:
@@ -114,11 +90,6 @@ def LBFGS(start_point,
         s_0 = x_k_1 - x_k
         y_0 = grad(x_k_1) - g_k
         H_0 = (s_0.T @ y_0) / (y_0.T @ y_0)
-
-        # y_s = np.dot(y_0, s_0)
-
-        # import pdb
-        # pdb.set_trace()
 
         if cnt_iter <= M:
             S.append(s_0)
@@ -152,12 +123,12 @@ def LBFGS(start_point,
         #                 str(np.fabs(func(x_k_1) - func(x_k))))
         #     break
 
-        # if (cnt_iter + 1) % 1000 == 0:
-        #     logger.info("    当前迭代 " + str(cnt_iter))
-        #     logger.info("    迭代点函数值 " + str(func(x_k_1)))
-        #     diff = np.fabs(func(x_k_1) - func(x_k))
-        #     logger.info("    |f(k) - f(k-1)| = " + str(diff))
-        #     g_k_l2norm = np.sqrt(g_k.T @ g_k)
-        #     logger.info("    ||g_k|| = " + str(g_k_l2norm))
+        if (cnt_iter + 1) % 1000 == 0:
+            logger.info("    当前迭代 " + str(cnt_iter))
+            logger.info("    迭代点函数值 " + str(func(x_k_1)))
+            diff = np.fabs(func(x_k_1) - func(x_k))
+            logger.info("    |f(k) - f(k-1)| = " + str(diff))
+            g_k_l2norm = np.sqrt(g_k.T @ g_k)
+            logger.info("    ||g_k|| = " + str(g_k_l2norm))
 
     return cnt_iter, x_k_1, g_k, diff

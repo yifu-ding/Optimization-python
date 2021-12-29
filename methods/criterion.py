@@ -15,7 +15,6 @@ def criterion(method,
               sigma=0,
               logger=None):
     alpha = np.array(init_alpha, dtype="float32").reshape(-1, 1)
-    # print("init_alpha 初始值=" + str(init_alpha))
     if "interpolate33" in method:
         alpha = np.array([1., 0.5], dtype="float32").reshape(-1, 1)
 
@@ -44,7 +43,6 @@ def criterion(method,
             break
         alpha = alpha_t
 
-        # print("步长=" + str(alpha))
         alpha_abs = np.abs(alpha[0])
         if alpha_abs < eps:
             # logger.info("步长太小 alpha=" + str(alpha))

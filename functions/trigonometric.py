@@ -24,9 +24,7 @@ class Trigonometric:
         for i in range(self.m):
             fi[i] = self.n - sum_cos + i * (1 - np.cos(x[i])) - np.sin(x[i])
         f = np.sum(fi.T @ fi)
-        # for i in range(n):
-        #     f_i = n - sum_cos + i * (1 - np.cos(x[i])) - np.sin(x[i])
-        #     f += f_i**2
+
         return f
 
     def grad(self, x):
@@ -51,15 +49,7 @@ class Trigonometric:
 
         for i in range(n):
             g[i] = np.sum(2 * gi[i].T @ fi)
-        # g = np.zeros_like(x, dtype="float32")
-        # sum_cos = 0.
-        # for i in range(n):
-        #     sum_cos += np.cos(x[i])
-        # for j in range(n):
-        #     f_j = n - sum_cos + j * (1 - np.cos(x[j])) - np.sin(x[j])
-        #     for i in range(n):
-        #         g[i] += 2 * f_j * (np.sin(x[i]) + i * np.sin(x[i]) -
-        #                            np.cos(x[i]))
+
         return g
 
     def hessian(self, x):

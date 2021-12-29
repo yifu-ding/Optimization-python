@@ -23,7 +23,6 @@ def ConjugateGradient(start_point,
         f_minimun = func(x_star)
 
     for cnt_iter in range(int(max_iters)):
-        # logger.info("iter " + str(cnt_iter))
 
         g_k = grad(x_k).reshape(-1, 1)
 
@@ -56,7 +55,6 @@ def ConjugateGradient(start_point,
                                sigma=sigma,
                                logger=logger)
 
-        # if cnt_iter > 0:
         if cnt_iter > 0:
             if 'fr-prp' in method:
                 beta_fr = (g_k.T @ g_k) / (g_k_1.T @ g_k_1)
@@ -81,7 +79,6 @@ def ConjugateGradient(start_point,
                 beta = (g_k.T @ g_k) / (d_k_1.T @ (g_k - g_k_1))
 
         # |f(x_k_1) - f(x_k)| < eps 终止判断
-        # if func == Trigonometric:
         if cnt_iter > 0:
             diff = np.fabs(func(x_k_1) - func(x_k))
             # if diff < epsilon:
@@ -89,13 +86,13 @@ def ConjugateGradient(start_point,
             #                 str(np.fabs(func(x_k_1) - func(x_k))))
             #     break
 
-            # if cnt_iter % 1000 == 0:
-            #     logger.info("    当前迭代 " + str(cnt_iter))
-            #     logger.info("    迭代点函数值 " + str(func(x_k_1)))
-            #     diff = np.fabs(func(x_k_1) - func(x_k))
-            #     logger.info("    |f(k) - f(k-1)| = " + str(diff))
-            #     g_k_l2norm = np.sqrt(g_k.T @ g_k)
-            #     logger.info("    ||g_k|| = " + str(g_k_l2norm))
+            if cnt_iter % 1000 == 0:
+                logger.info("    当前迭代 " + str(cnt_iter))
+                logger.info("    迭代点函数值 " + str(func(x_k_1)))
+                diff = np.fabs(func(x_k_1) - func(x_k))
+                logger.info("    |f(k) - f(k-1)| = " + str(diff))
+                g_k_l2norm = np.sqrt(g_k.T @ g_k)
+                logger.info("    ||g_k|| = " + str(g_k_l2norm))
 
         d_k_1 = d_k
         x_k_1 = x_k

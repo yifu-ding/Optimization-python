@@ -25,17 +25,6 @@ class ExtendedRosenbrock:
             fi[2 * i - 2] = 10 * (x[2 * i - 1] - x[i - 2]**2)
             fi[2 * i - 1] = 1 - x[2 * i - 2]
         f = np.sum(fi.T @ fi)
-        # f = 0.
-        # for i in range(1, (n // 2) + 1):
-        #     f_1 = 10. * (x[2 * i - 1] - x[i - 2]**2)
-        #     f_2 = 1. - x[2 * i - 2]
-        #     f = f + f_1**2 + f_2**2
-        # r = np.zeros(n)
-        # for i in range(1, n // 2 + 1):
-        #     r[i] = 1.0 - x[2 * i - 2]
-        #     r[i + 1] = 10.0 * (x[2 * i - 1] - x[i - 1]**2)
-        #     f = f + r[i]**2 + r[i + 1]**2
-        # f = np.dot(r, r)
         return f
 
     def grad(self, x):
@@ -58,24 +47,6 @@ class ExtendedRosenbrock:
 
         for i in range(n):
             g[i] = np.sum(2 * gi[i].T @ fi)
-        # g = np.zeros(n, dtype="float32")
-        # r = np.zeros(n)
-        # for i in range(1, n // 2 + 1):
-        #     r[i] = 1.0 - x[2 * i - 2]
-        #     r[i + 1] = 10.0 * (x[2 * i - 1] - x[i - 1]**2)
-        #     # f = f + r[i]**2 + r[i + 1]**2
-        # # print(r)
-        # for i in range(1, n // 2 + 1):
-        #     g[2 * i - 2] += -1 * 2 * r[i]
-        #     g[2 * i - 1] += 10 * 2 * r[i + 1]
-        #     g[i - 1] += 10 * (-2) * (x[i - 1]) * r[i + 1]
-        # for i in range(1, (n // 2) + 1):
-        #     f_1 = 10. * (x[2 * i - 1] - x[i - 2]**2)
-        #     f_2 = 1. - x[2 * i - 2]
-        #     g[2 * i - 1] += 2 * f_1 * 10
-        #     g[i - 2] += 2 * f_1 * (-20 * x[i - 2])
-        #     g[2 * i - 2] += 2 * f_2 * (-1)
-        # g = np.delete(g, 0)
 
         return g
 
@@ -86,5 +57,5 @@ class ExtendedRosenbrock:
 if __name__ == '__main__':
     tri = ExtendedRosenbrock(4)
     print((tri.x_0))
-    # print(tri.func(tri.x_star))
+    print(tri.func(tri.x_0))
     tri.grad(tri.x_0)

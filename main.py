@@ -120,11 +120,10 @@ def main():
     logger.info("***** Final Results *****")
     logger.info("   迭代次数(ite): " + str(total_iter))
     logger.info("   函数调用次数(feva): " + str(question.call_f))
-    # logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)) + ", 函数值: " +
-    #             str(question.func(x_k)))
+    # logger.info("   迭代点的 x 值: " + str(x_k.reshape(1, -1)))
     logger.info("   迭代点的函数值: " + str(question.func(x_k)))
     logger.info("   最优函数值: " + str(question.f_minimun))
-    logger.info("   |f(xk) - f(x*)|: " + str(diff))
+    logger.info("   |f(k) - f(k-1)|: " + str(diff))
     g_k_l2norm = np.sqrt(g_k.T @ g_k)
     logger.info("   ||g_k||: " + str(g_k_l2norm[0][0]))
     logger.info("   CPU时间（ms）: " + str((end_time - start_time)))

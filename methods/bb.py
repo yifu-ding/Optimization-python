@@ -28,9 +28,6 @@ def BB(start_point,
         # logger.info("iter " + str(cnt_iter))
         if cnt_iter == 0:
             g_k = grad(x_k).reshape(-1, 1)
-        # d_k = -g_k
-        # print("cnt_iter=" + str(cnt_iter))
-        # print("cnt_iter // M=" + str(cnt_iter // M))
         f_arr[cnt_iter - M * (cnt_iter // M)] = func(x_k)
 
         # ||g||_2 < eps 终止判断
@@ -68,13 +65,13 @@ def BB(start_point,
         #                 str(np.fabs(func(x_k_1) - func(x_k))))
         #     break
 
-        # if (cnt_iter + 1) % 1000 == 0:
-        #     logger.info("    当前迭代 " + str(cnt_iter))
-        #     logger.info("    迭代点函数值 " + str(func(x_k_1)))
-        #     diff = np.fabs(func(x_k_1) - func(x_k))
-        #     logger.info("    |f(k) - f(k-1)| = " + str(diff))
-        #     g_k_l2norm = np.sqrt(g_k.T @ g_k)
-        #     logger.info("    ||g_k|| = " + str(g_k_l2norm))
+        if (cnt_iter + 1) % 1000 == 0:
+            logger.info("    当前迭代 " + str(cnt_iter))
+            logger.info("    迭代点函数值 " + str(func(x_k_1)))
+            diff = np.fabs(func(x_k_1) - func(x_k))
+            logger.info("    |f(k) - f(k-1)| = " + str(diff))
+            g_k_l2norm = np.sqrt(g_k.T @ g_k)
+            logger.info("    ||g_k|| = " + str(g_k_l2norm))
 
         g_k_1 = grad(x_k_1)
         y = g_k_1 - g_k
