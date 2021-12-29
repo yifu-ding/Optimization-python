@@ -63,10 +63,18 @@ def BB(start_point,
 
         # |f(x_k_1) - f(x_k)| < eps 终止判断
         diff = np.fabs(func(x_k_1) - func(x_k))
-        if diff < epsilon:
-            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-                        str(np.fabs(func(x_k_1) - func(x_k))))
-            break
+        # if diff < epsilon:
+        #     logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+        #                 str(np.fabs(func(x_k_1) - func(x_k))))
+        #     break
+
+        # if (cnt_iter + 1) % 1000 == 0:
+        #     logger.info("    当前迭代 " + str(cnt_iter))
+        #     logger.info("    迭代点函数值 " + str(func(x_k_1)))
+        #     diff = np.fabs(func(x_k_1) - func(x_k))
+        #     logger.info("    |f(k) - f(k-1)| = " + str(diff))
+        #     g_k_l2norm = np.sqrt(g_k.T @ g_k)
+        #     logger.info("    ||g_k|| = " + str(g_k_l2norm))
 
         g_k_1 = grad(x_k_1)
         y = g_k_1 - g_k
