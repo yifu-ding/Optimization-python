@@ -14,8 +14,8 @@ class Penalty:
             self.f_minimun = 7.08765e-5
         else:
             self.f_minimun = None
-        self.x_0 = np.array([j + 1 for j in range(self.n)]).reshape(-1, 1)
-        # self.x_0 = np.random.rand(self.n).reshape(-1, 1)
+        # self.x_0 = np.array([1 for j in range(self.n)]).reshape(-1, 1)
+        self.x_0 = np.random.rand(self.n).reshape(-1, 1)
         self.x_star = None
         self.call_f = 0
 

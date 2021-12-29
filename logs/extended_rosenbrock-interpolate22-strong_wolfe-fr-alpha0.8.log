@@ -1,0 +1,10 @@
+Namespace(criterion_method='strong_wolfe', eps=1e-06, func_name='extended_rosenbrock', init_alpha=0.8, m=10, max_iters=10000.0, opt_method='fr', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
+12/29 12:31:29 AM ***** Final Results *****
+12/29 12:31:29 AM    迭代次数(ite): 9999
+12/29 12:31:29 AM    函数调用次数(feva): 220264
+12/29 12:31:29 AM    迭代点的 x 值: [[0.9368623  0.         0.9945423  0.8777631  0.99998796 0.
+  0.99998796 0.9892264  0.99998796 0.77000886]], 函数值: 0.0040387693
+12/29 12:31:29 AM    最优函数值: 0
+12/29 12:31:29 AM    |f(xk) - f(x*)|: 0.004038769286125898
+12/29 12:31:29 AM    ||g_k||: 0.2474651
+12/29 12:31:29 AM    CPU时间（ms）: 9.953486999999999

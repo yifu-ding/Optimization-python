@@ -1,6 +1,7 @@
 # coding=UTF-8
 import numpy as np
 from .criterion import criterion
+from functions import Trigonometric
 
 
 def ConjugateGradient(start_point,
@@ -79,16 +80,17 @@ def ConjugateGradient(start_point,
             elif 'dy' in method:
                 beta = (g_k.T @ g_k) / (d_k_1.T @ (g_k - g_k_1))
 
+        # |f(x_k_1) - f(x_k)| < eps 终止判断
+        # if func == Trigonometric:
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        if diff < epsilon:
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
+            break
+
         d_k_1 = d_k
         x_k_1 = x_k
         g_k_1 = g_k
         d_k = -g_k + beta * d_k
 
-        # |f(x_k_1) - f(x_k)| < eps 终止判断
-        # diff = np.fabs(func(x_k_1) - func(x_k))
-        # if diff < epsilon:
-        #     logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-        #                 str(np.fabs(func(x_k_1) - func(x_k))))
-        #     break
-
-    return cnt_iter, x_k, g_k
+    return cnt_iter, x_k, g_k, diff

@@ -146,10 +146,10 @@ def LBFGS(start_point,
         # print("步长=" + str(alpha))
 
         # |f(x_k_1) - f(x_k)| < eps 终止判断
-        # diff = np.fabs(func(x_k_1) - func(x_k))
-        # if diff < epsilon:
-        #     logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-        #                 str(np.fabs(func(x_k_1) - func(x_k))))
-        #     break
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        if diff < epsilon:
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
+            break
 
-    return cnt_iter, x_k_1, g_k
+    return cnt_iter, x_k_1, g_k, diff

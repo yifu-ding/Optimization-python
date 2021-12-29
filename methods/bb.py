@@ -62,11 +62,11 @@ def BB(start_point,
         x_k_1 = x_k - lambd * g_k
 
         # |f(x_k_1) - f(x_k)| < eps 终止判断
-        # diff = np.fabs(func(x_k_1) - func(x_k))
-        # if diff < epsilon:
-        #     logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
-        #                 str(np.fabs(func(x_k_1) - func(x_k))))
-        #     break
+        diff = np.fabs(func(x_k_1) - func(x_k))
+        if diff < epsilon:
+            logger.info("达到终止条件: func(x_k_1) - func(x_k) = " +
+                        str(np.fabs(func(x_k_1) - func(x_k))))
+            break
 
         g_k_1 = grad(x_k_1)
         y = g_k_1 - g_k
@@ -77,4 +77,4 @@ def BB(start_point,
         x_k = x_k_1
         g_k = g_k_1
 
-    return cnt_iter, x_k, g_k
+    return cnt_iter, x_k, g_k, diff

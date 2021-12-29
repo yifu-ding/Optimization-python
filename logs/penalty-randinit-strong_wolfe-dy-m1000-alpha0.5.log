@@ -1,0 +1,9 @@
+Namespace(criterion_method='strong_wolfe', eps=1e-06, func_name='penalty', init_alpha=0.5, m=1000, max_iters=10000.0, opt_method='dy', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
+12/29 12:37:23 PM ***** Final Results *****
+12/29 12:37:23 PM    迭代次数(ite): 9999
+12/29 12:37:23 PM    函数调用次数(feva): 233524
+12/29 12:37:23 PM    迭代点的函数值: 0.009686386
+12/29 12:37:23 PM    最优函数值: None
+12/29 12:37:23 PM    |f(xk) - f(x*)|: 0.009686386212706566
+12/29 12:37:23 PM    ||g_k||: 0.0002860951
+12/29 12:37:23 PM    CPU时间（ms）: 961.145529

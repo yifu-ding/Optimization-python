@@ -1,0 +1,10 @@
+Namespace(criterion_method='armijo', eps=1e-06, func_name='penalty', init_alpha=0.7, m=100, max_iters=10000.0, opt_method='lbfgs', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
+12/29 03:01:27 AM g_k_l2norm=[[1.4802936e-07]] < 1e-06, 终止迭代
+12/29 03:01:27 AM ***** Final Results *****
+12/29 03:01:27 AM    迭代次数(ite): 7
+12/29 03:01:27 AM    函数调用次数(feva): 129
+12/29 03:01:27 AM    迭代点的函数值: 0.06350002
+12/29 03:01:27 AM    最优函数值: None
+12/29 03:01:27 AM    |f(xk) - f(x*)|: 0.06350001692771912
+12/29 03:01:27 AM    ||g_k||: 1.4802936e-07
+12/29 03:01:27 AM    CPU时间（ms）: 0.769409

@@ -1,0 +1,17 @@
+Namespace(criterion_method='armijo', eps=1e-06, func_name='penalty', init_alpha=0.3, m=100, max_iters=10000.0, opt_method='lbfgs', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
+12/29 03:01:27 AM ***** Final Results *****
+12/29 03:01:27 AM    迭代次数(ite): 9999
+12/29 03:01:27 AM    函数调用次数(feva): 682565
+12/29 03:01:27 AM    迭代点的函数值: nan
+12/29 03:01:27 AM    最优函数值: None
+12/29 03:01:27 AM    |f(xk) - f(x*)|: nan
+12/29 03:01:27 AM    ||g_k||: nan
+12/29 03:01:27 AM    CPU时间（ms）: 260.616467
+/Users/ivory/LocalFile/study/博一/课程/最优化/我的上机作业/dyf/Optimization-python/methods/lbfgs.py:116: RuntimeWarning: invalid value encountered in true_divide
+  H_0 = (s_0.T @ y_0) / (y_0.T @ y_0)
+/Users/ivory/LocalFile/study/博一/课程/最优化/我的上机作业/dyf/Optimization-python/methods/lbfgs.py:16: RuntimeWarning: divide by zero encountered in true_divide
+  rho[i] = 1 / (S[i].T @ Y[i])  # @?
+/Users/ivory/LocalFile/study/博一/课程/最优化/我的上机作业/dyf/Optimization-python/methods/lbfgs.py:22: RuntimeWarning: invalid value encountered in multiply
+  q[i] = q[i + 1] - alpha[i] * Y[i]
+/Users/ivory/LocalFile/study/博一/课程/最优化/我的上机作业/dyf/Optimization-python/methods/lbfgs.py:30: RuntimeWarning: invalid value encountered in multiply
+  beta[i] = rho[i] * Y[i].T @ r

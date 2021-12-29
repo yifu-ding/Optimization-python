@@ -1,0 +1,10 @@
+Namespace(criterion_method='strong_wolfe', eps=1e-06, func_name='trigonometric', init_alpha=0.5, m=100, max_iters=10000.0, opt_method='bb', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
+12/29 02:47:02 AM g_k_l2norm=[[5.425292e-07]] < 1e-06, 终止迭代
+12/29 02:47:02 AM ***** Final Results *****
+12/29 02:47:02 AM    迭代次数(ite): 7044
+12/29 02:47:02 AM    函数调用次数(feva): 21161
+12/29 02:47:02 AM    迭代点的函数值: 1.8678529e-06
+12/29 02:47:02 AM    最优函数值: 0
+12/29 02:47:02 AM    |f(xk) - f(x*)|: 1.8678529158933088e-06
+12/29 02:47:02 AM    ||g_k||: 5.425292e-07
+12/29 02:47:02 AM    CPU时间（ms）: 44.541371
