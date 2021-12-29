@@ -1,9 +1,0 @@
-Namespace(criterion_method='strong_wolfe', eps=1e-06, func_name='penalty', init_alpha=0.5, m=1000, max_iters=10000.0, opt_method='prp', rho=0.0001, sigma=0.9, stepsize_method='interpolate22')
-Traceback (most recent call last):
-  File "main.py", line 137, in <module>
-    main()
-  File "main.py", line 104, in main
-    total_iter, x_k, g_k = methods[args.opt_method](
-  File "/Users/ivory/LocalFile/study/博一/课程/最优化/我的上机作业/dyf/Optimization-python/methods/conjugate_gradient.py", line 88, in ConjugateGradient
-    # |f(x_k_1) - f(x_k)| < eps 终止判断
-NameError: name 'Trigonometric' is not defined

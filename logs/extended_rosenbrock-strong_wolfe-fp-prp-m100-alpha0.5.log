@@ -1,8 +1,0 @@
-usage: main.py [-h]
-               [--func_name {example,brown_and_dennis,brown_almost_linear,extended_powell_singular,penalty,trigonometric,extended_rosenbrock}]
-               [--stepsize_method {simple,interpolate22,interpolate33}]
-               [--criterion_method {armijo,goldstein,wolfe,strong_wolfe}]
-               [--opt_method {inexact,newton,damped,hybrid,lm,sr1,bfgs,dfp,lbfgs,fr,prp,prp+,bb,fr-prp,cd,dy}]
-               [--max_iters MAX_ITERS] [--rho RHO] [--sigma SIGMA]
-               [--init_alpha INIT_ALPHA] [--eps EPS] [--m M]
-main.py: error: argument --opt_method: invalid choice: 'fp-prp' (choose from 'inexact', 'newton', 'damped', 'hybrid', 'lm', 'sr1', 'bfgs', 'dfp', 'lbfgs', 'fr', 'prp', 'prp+', 'bb', 'fr-prp', 'cd', 'dy')
